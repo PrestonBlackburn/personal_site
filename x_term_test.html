@@ -78,25 +78,193 @@
     .xterm-viewport::-webkit-scrollbar {  /* Chrome/Safari */
     display: none !important;
     }
+
+
+    .terminal-results-wrapper {
+      position: relative;
+      z-index: 1; /* on top of hydra canvas */
+      background:  rgba(41,46,63,0.9);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      overflow: hidden;
+      width: 800px;
+      max-width: 95%;
+      margin: 40px auto;
+      color: #9ECE6A;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .terminal-results {
+      min-height: 50px;
+      padding: 8px;
+      width: 800px;
+    }
+
+    .first-page-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .side-column-wrapper {
+        position: relative;
+        z-index: 1; /* on top of hydra canvas */
+        background:  rgba(41,46,63,0.9);
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        overflow: hidden;
+        width: 300px;
+        max-width: 90%;
+        margin: 40px auto;
+        color: #9ECE6A;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .side-column-content {
+        width: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        gap: 20px;
+        height: 500px;
+        padding: 40px 0;            
+    }
+
+    .side-text {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .rotating-img {
+    display: block;
+    width: 150px;              /* or whatever size you want */
+    transition: transform 0.6s ease;  /* smooth animation */
+    }
+
+    .rotating-img:hover {
+    transform: rotate(360deg);
+    }
+
+
+    .shake-img {
+    display: block;
+    width: 150px;
+    transition: transform 0.2s;
+    }
+
+    .shake-img:hover {
+    animation: shake 0.4s ease-in-out; /* run once per hover */
+    }
+
+    @keyframes shake {
+    0%   { transform: translateX(0); }
+    20%  { transform: translateX(-5px); }
+    40%  { transform: translateX(5px); }
+    60%  { transform: translateX(-5px); }
+    80%  { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+    }
+
+    .shine-wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: hidden; /* keep shine inside */
+    }
+
+    .shine-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    }
+
+    .shine-wrapper:hover::after {
+    animation: shine 0.8s forwards;
+    }
+
+    @keyframes shine {
+    100% {
+        left: 125%;
+    }
+    }
   </style>
 
 </head>
 <body>
     <!-- Hydra canvas -->
     <canvas id="hydraCanvas"></canvas>
-
     <div style="padding: 20px;"></div>
-    <div class="terminal-wrapper">
-        <div class="terminal-header">
-            <div class="terminal-buttons">
-                <div class="terminal-btn btn-close"></div>
-                <div class="terminal-btn btn-min"></div>
-                <div class="terminal-btn btn-max"></div>
+
+    <div class = "first-page-row">
+        <div class="left-column">
+            <div class="side-column-wrapper">
+                <div class="terminal-header">
+                </div>
+                <div class = "side-column-content">
+                    <div class="shine-wrapper">
+                        <img src="mobo.png" alt="Logo" style="width:80px; height:auto; padding:10px;"/>
+                    </div>
+                    <img src="disk.png" alt="Logo" style="width:80px; height:auto; padding:10px;" class = "rotating-img"/>
+                    <img src="linux.png" alt="Logo" style="width:100px; height:auto; padding:10px;"/>
+                    <img src="duck.png" alt="Logo" style="width:80px; height:auto; padding:10px;" class = "shake-img"/>
+                </div>
             </div>
         </div>
-        <div id="terminal"></div>
-  </div>
 
+        <div class = "terminal-and-results">
+            <div class="terminal-wrapper">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <div class="terminal-btn btn-close"></div>
+                            <div class="terminal-btn btn-min"></div>
+                            <div class="terminal-btn btn-max"></div>
+                        </div>
+                    </div>
+                    <div id="terminal"></div>
+            </div>
+
+            <div class="terminal-results-wrapper">
+                <div class="terminal-header">
+                </div>
+                <div class = "terminal-results">
+                    Try the terminal above to populate this area.
+                </div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="side-column-wrapper">
+                <div class="terminal-header">
+                </div>
+                <div class = "side-column-content">
+                    <div class="side-text">about</div>
+                    <div class="side-text">projects</div>
+                    <div class="side-text">blogs</div>
+                    <div class="side-text">consulting</div>
+                    <div class="side-text">my tools</div>
+                    <div class="side-text">contact</div>
+                    <div class="side-text">videos</div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
   <script type="module">
 
     // ---------- HYDRA ----------
@@ -113,15 +281,6 @@
         width: hydraCanvas.width,
         height: hydraCanvas.height,
     });
-
-    // Example pattern
-    function hydraOption0() {
-        osc(10, 0.1, 0.8)
-        .kaleid(5)
-        .rotate(0.3, 0.1)
-        .color(0.2, 0.8, 1.0)
-        .out();
-    }
 
 
     function hydraWave() {
@@ -206,8 +365,7 @@
     }
 
 
-
-    const hydraFuncs = [hydraOption0, hydraWave, hydraVoronoi, hydraOjack, hydraOrbs];
+    const hydraFuncs = [hydraWave, hydraVoronoi, hydraOjack, hydraOrbs, hydraRetro];
     const randomIndex = Math.floor(Math.random() * hydraFuncs.length);
 
     // Get the random element
