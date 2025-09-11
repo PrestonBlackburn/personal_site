@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personal-site-deployment
+  namespace: personal
+  labels:
+    app: personal-site
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: personal-site
+  template:
+    metadata:
+      labels:
+        app: personal-site
+    spec:
+      containers:
+        - name: personal-site-container
+          image: personal_site:latest
+          # if local
+          imagePullPolicy: Never
+          # if remote
+          # imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: personal-site
+  namespace: personal
+spec:
+  type: ClusterIP
+  selector:
+    app: personal-site
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000 
+
