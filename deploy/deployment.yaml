@@ -18,11 +18,12 @@ spec:
     spec:
       containers:
         - name: personal-site-container
-          image: personal_site:latest
           # if local
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
+          # image: personal_site:latest
           # if remote
-          # imagePullPolicy: Always
+          imagePullPolicy: Always
+          image: ghcr.io/prestonblackburn/personal_site/personal_site:main
           ports:
             - containerPort: 8000
           resources:
