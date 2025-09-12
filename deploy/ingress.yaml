@@ -16,7 +16,7 @@ spec:
   #       - personal.example.com
   #     secretName: personal-site-tls
   rules:
-    # - host: personal.local
+    # - host: personal.example.com   # the hostname Cloudflare will send traffic for
     - http:
         paths:
         - path: /
