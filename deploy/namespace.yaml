@@ -2,3 +2,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: personal
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloudflared

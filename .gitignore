@@ -2,3 +2,4 @@ node_modules/*
 *.json
 venv/*
 */__pycache__/*
+**/secrets.yaml
