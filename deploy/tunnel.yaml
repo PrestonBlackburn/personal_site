@@ -43,6 +43,10 @@ spec:
         - name: creds
           mountPath: /etc/cloudflared/creds
           readOnly: true
+        - name: cloudflared-cert
+          mountPath: /etc/cloudflared/cert.pem
+          subPath: cert.pem
+          readOnly: true
       volumes:
       - name: creds
         secret:
@@ -60,3 +64,6 @@ spec:
           items:
           - key: config.yaml
             path: config.yaml
+      - name: cloudflared-cert
+        secret:
+          secretName: cloudflared-cert
