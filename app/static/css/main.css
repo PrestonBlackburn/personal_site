@@ -1,0 +1,316 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    font-family: sans-serif;
+    cursor: url('/static/img/cursor.png') 0 52, auto; /* fallback to default */
+}
+
+#hydraCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.terminal-wrapper {
+    position: relative;
+    z-index: 1; /* on top of hydra canvas */
+    background:  rgba(41,46,63,0.9);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    width: 700px;
+    max-width: 95%;
+    margin: 10px auto;
+}
+
+.terminal-header {
+    /* background: #3B4252; */
+    background: rgba(41,46,63,0.9);
+    height: 28px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.terminal-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.btn-close { background: #FF5F56; }
+.btn-min   { background: #FFBD2E; }
+.btn-max   { background: #27C93F; }
+
+#terminal {
+    height: 300px;
+    padding: 8px;
+}
+
+/* hide xterm scrollbar */
+.xterm-viewport {
+scrollbar-width: none !important;  /* Firefox */
+-ms-overflow-style: none !important;  /* IE 10+ */
+}
+
+.xterm-viewport::-webkit-scrollbar {  /* Chrome/Safari */
+display: none !important;
+}
+
+
+.terminal-results-wrapper {
+    position: relative;
+    z-index: 1; /* on top of hydra canvas */
+    background:  rgba(41,46,63,0.9);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    width: 800px;
+    max-width: 95%;
+    margin: 40px auto;
+    color: #9ECE6A;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.terminal-results {
+    min-height: 50px;
+    padding: 8px;
+    width: 800px;
+}
+
+.first-page-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.side-column-wrapper {
+    position: relative;
+    z-index: 1; /* on top of hydra canvas */
+    background:  rgba(41,46,63,0.9);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    width: 350px;
+    max-width: 95%;
+    margin: 40px auto;
+    color: #9ECE6A;
+    display: flex;
+    flex-direction: column;
+}
+
+.side-column-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    height: 500px;
+    padding: 40px 0;            
+}
+
+.side-text {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.side-text {
+    cursor: pointer; /* makes it look clickable */
+    transition: all 0.2s ease-in-out;
+}
+
+.side-text:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #A3BE8C;
+    border-radius: 4px;
+    cursor: pointer; /* redundant but explicit */
+}
+
+.side-text:hover {
+    cursor: url('/static/img/hover-cursor.png') 0 52, pointer;
+}
+
+
+.window-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+.window-btn.close {
+  background: #ff5f56;
+}
+
+.window-btn.minimize {
+  background: #ffbd2e;
+}
+
+.window-btn.maximize {
+  background: #27c93f;
+}
+
+.rotating-img {
+display: block;
+width: 150px;              /* or whatever size you want */
+transition: transform 0.6s ease;  /* smooth animation */
+}
+
+.rotating-img:hover {
+transform: rotate(360deg);
+}
+
+
+.shake-img {
+display: block;
+width: 150px;
+transition: transform 0.2s;
+}
+
+.shake-img:hover {
+animation: shake 0.4s ease-in-out; /* run once per hover */
+}
+
+@keyframes shake {
+0%   { transform: translateX(0); }
+20%  { transform: translateX(-5px); }
+40%  { transform: translateX(5px); }
+60%  { transform: translateX(-5px); }
+80%  { transform: translateX(5px); }
+100% { transform: translateX(0); }
+}
+
+.shine-wrapper {
+position: relative;
+display: inline-block;
+overflow: hidden; /* keep shine inside */
+}
+
+.shine-wrapper::after {
+content: "";
+position: absolute;
+top: 0;
+left: -75%;
+width: 50%;
+height: 100%;
+background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+);
+transform: skewX(-25deg);
+}
+
+.shine-wrapper:hover::after {
+animation: shine 0.8s forwards;
+}
+
+@keyframes shine {
+100% {
+    left: 125%;
+}
+}
+
+
+/* ------------  Blog Wrappers -------------- */
+
+.blog-wrapper {
+    z-index: 1; /* on top of hydra canvas */
+    background:  rgba(41,46,63,0.9);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    width: 800px;
+    max-width: 95%;
+    margin: 10px auto;
+    padding: 20px; 
+}
+.blog-content {
+    font-family: monospace; /* or a clean sans-serif if you prefer */
+    line-height: 1.6;
+    color: white;
+}
+/* Headings */
+.blog-content h1 {
+    font-size: 4.2rem;   /* bigger main title */
+    margin: 1.0em 0 0.6em 0;
+    color: #A3BE8C;
+}
+.blog-content h2 {
+    font-size: 3.8rem;
+    margin: 1.1em 0 0.5em 0;
+    color: #A3BE8C;
+}
+.blog-content h3 {
+    font-size: 2.4rem;
+    margin: 1em 0 0.4em 0;
+    color: #A3BE8C;
+}
+/* Paragraphs */
+.blog-content p {
+    font-size: 1.0rem;
+    margin: 1.35em 0;   /* more space between blocks */
+}
+.blog-content ol, .blog-content ul {
+    font-size: 1.0rem;
+    margin: 1.0em 0;   /* more space between blocks */
+}
+
+/* Inline code */
+.blog-content code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.95em;
+    font-family: 'Fira Code', monospace;
+    color: #FFCB6B; /* or pick a highlight color */
+}
+
+/* Code blocks */
+.blog-content pre {
+    background: rgba(30, 30, 40, 0.95);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Fira Code', monospace;
+    color: #ECEFF4;
+    margin: 1em 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Optional: add a subtle scrollbar */
+.blog-content pre::-webkit-scrollbar {
+    height: 6px;
+}
+.blog-content pre::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+}
+
+.blog-content a {
+    color: #88C0D0;      /* light blue for links */
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.blog-content a:hover {
+    color: #81A1C1;      /* darker blue on hover */
+    text-decoration: none;
+}

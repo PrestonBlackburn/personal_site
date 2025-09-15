@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+<div class = "first-page-row">
+{% block content %}
+    {% include 'components/terminal.html' with context %}
+    <div class="flex flex-row justify-center w-full"> 
+        {% include 'components/link_column.html' with context %}
+        {% include 'components/icon_column.html' with context %}
+    </div>
+{% endblock %}
+</div>

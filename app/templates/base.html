@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Preston's Site</title>
+    <link rel="stylesheet" href="/static/css/xterm.css" />
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <script src="/static/js/xterm.js"></script>
+    <script src="/static/js/addon-fit.js"></script>
+    <script src="https://unpkg.com/hydra-synth"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Hydra canvas -->
+    <canvas id="hydraCanvas"></canvas>
+    <div style="padding: 20px;"></div>
+
+    <main class="flex-1 flex flex-col overflow-y-auto">
+        {% block content %}{% endblock %}
+    </main>
+    <script type="module" src="/static/js/pages/landing/hydra.js"></script>
+</body>
+</html>

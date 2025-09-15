@@ -3,3 +3,4 @@ fastapi
 python-multipart
 uvicorn
 Jinja2
+markdown

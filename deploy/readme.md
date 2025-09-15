@@ -3,6 +3,11 @@
 ## Docs
 https://github.com/cloudflare/argo-tunnel-examples/tree/master/named-tunnel-k8s  
 
+Namespace for tunnel:
+```bash
+kubectl apply -f namespace.yaml
+```
+
 Create Secret example:
 ```bash
 cp /Users/cf000197/.cloudflared/ef824aef-7557-4b41-a398-4684585177ad.json /var/snap/microk8s/common/credentials.json
