@@ -55,138 +55,42 @@ async def home(
     response = get_home_page(request, templates)
     return response
 
-@app.get("/videos", response_class=HTMLResponse)
-def serve_markdown_page(
-    request: Request
-)-> HTMLResponse:
-    
-    md_file = Path(f"app/static/content/videos/my-videos.md")
-    if not md_file.exists():
-        # can setup better 404 later
-        return HTMLResponse("<h1>404 Not Found</h1>", status_code=404)
-    
-    md_text = md_file.read_text(encoding="utf-8")
-    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
 
-    context = {"request": request, "content": html}
-    response = templates.TemplateResponse("pages/videos.html", context)
-    print(response)
+# For generic pages (just md serving)
+custom_md_pages = {
+    "videos": Path(f"app/static/content/videos/my-videos.md"),
+    "projects": Path(f"app/static/content/projects/projects-page.md"),
+    "consulting": Path(f"app/static/content/consulting/consulting-overview.md"),
+    "tools": Path(f"app/static/content/tools/my-tools.md"),
+    "about": Path(f"app/static/content/about/about.md"),
+    "contact": Path(f"app/static/content/contact/contact.md"),
+    "blogs": Path(f"app/static/content/blogs/summary.md"),
+}
 
-    return response
+def generic_markdown_page_generator(content_path:Path):
+    def serve_markdown_page(
+        request: Request,
+    )-> HTMLResponse:
+        
+        if not content_path.exists():
+            # can setup better 404 later
+            return HTMLResponse("<h1>404 Not Found</h1>", status_code=404)
+        
+        md_text = content_path.read_text(encoding="utf-8")
+        html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
 
-@app.get("/projects", response_class=HTMLResponse)
-def serve_markdown_page(
-    request: Request
-)-> HTMLResponse:
-    
-    md_file = Path(f"app/static/content/projects/projects-page.md")
-    if not md_file.exists():
-        # can setup better 404 later
-        return HTMLResponse("<h1>404 Not Found</h1>", status_code=404)
-    
-    md_text = md_file.read_text(encoding="utf-8")
-    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
+        context = {"request": request, "content": html}
+        response = templates.TemplateResponse("pages/generic_md_page.html", context)
+        print(response)
 
-    context = {"request": request, "content": html}
-    response = templates.TemplateResponse("pages/generic_md_page.html", context)
-    print(response)
+        return response
+    return serve_markdown_page
 
-    return response
+for page_route, content_path in custom_md_pages.items():
+    serve_md_page = generic_markdown_page_generator(content_path)
+    app.add_api_route(f"/{page_route}", serve_md_page, response_class=HTMLResponse, methods=["GET"])
 
-@app.get("/consulting", response_class=HTMLResponse)
-def serve_markdown_page(
-    request: Request
-)-> HTMLResponse:
-    
-    md_file = Path(f"app/static/content/consulting/consulting-overview.md")
-    if not md_file.exists():
-        # can setup better 404 later
-        return HTMLResponse("<h1>404 Not Found</h1>", status_code=404)
-    
-    md_text = md_file.read_text(encoding="utf-8")
-    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
 
-    context = {"request": request, "content": html}
-    response = templates.TemplateResponse("pages/generic_md_page.html", context)
-    print(response)
-
-    return response
-
-@app.get("/tools", response_class=HTMLResponse)
-def serve_markdown_page(
-    request: Request
-)-> HTMLResponse:
-    
-    md_file = Path(f"app/static/content/tools/my-tools.md")
-    if not md_file.exists():
-        # can setup better 404 later
-        return HTMLResponse("<h1>404 Not Found</h1>", status_code=404)
-    
-    md_text = md_file.read_text(encoding="utf-8")
-    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
-
-    context = {"request": request, "content": html}
-    response = templates.TemplateResponse("pages/generic_md_page.html", context)
-    print(response)
-
-    return response
-
-@app.get("/about", response_class=HTMLResponse)
-def serve_markdown_page(
-    request: Request
-)-> HTMLResponse:
-    
-    md_file = Path(f"app/static/content/about/about.md")
-    if not md_file.exists():
-        # can setup better 404 later
-        return HTMLResponse("<h1>404 Not Found</h1>", status_code=404)
-    
-    md_text = md_file.read_text(encoding="utf-8")
-    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
-
-    context = {"request": request, "content": html}
-    response = templates.TemplateResponse("pages/generic_md_page.html", context)
-    print(response)
-
-    return response
-
-@app.get("/contact", response_class=HTMLResponse)
-def serve_markdown_page(
-    request: Request
-)-> HTMLResponse:
-    
-    md_file = Path(f"app/static/content/contact/contact.md")
-    if not md_file.exists():
-        # can setup better 404 later
-        return HTMLResponse("<h1>404 Not Found</h1>", status_code=404)
-    
-    md_text = md_file.read_text(encoding="utf-8")
-    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
-
-    context = {"request": request, "content": html}
-    response = templates.TemplateResponse("pages/generic_md_page.html", context)
-    print(response)
-
-    return response
-
-@app.get("/blogs", response_class=HTMLResponse)
-def serve_markdown_page(
-    request: Request
-)-> HTMLResponse:
-    
-    md_file = Path(f"app/static/content/blogs/summary.md")
-    if not md_file.exists():
-        # can setup better 404 later
-        return HTMLResponse("<h1>404 Not Found</h1>", status_code=404)
-    
-    md_text = md_file.read_text(encoding="utf-8")
-    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
-
-    context = {"request": request, "content": html}
-    response = templates.TemplateResponse("pages/generic_md_page.html", context)
-    print(response)
-
-    return response
 
 @app.get("/blog/{page_name}", response_class=HTMLResponse)
 def serve_markdown_page(
@@ -210,3 +114,12 @@ def serve_markdown_page(
     return response
 
 
+@app.get("/api/v1/pages")
+def list_pages():
+    return {"pages": list(custom_md_pages.keys())}
+
+@app.get("/api/v1/blogs")
+def list_blogs():
+    blog_dir = Path("app/static/content/blogs")
+    blog_files = [f.stem for f in blog_dir.glob("*.md") if f.is_file() and f.name != "summary.md"]
+    return {"blogs": blog_files}
