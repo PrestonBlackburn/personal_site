@@ -273,8 +273,8 @@ document.addEventListener("DOMContentLoaded", () => {
     terminalWrapper.classList.remove("collapsed");
   });
 
-  btnClose.addEventListener("click", () => {
-    // Example: completely hide it
-    terminalWrapper.style.display = "none";
-  });
+//   btnClose.addEventListener("click", () => {
+//     // Example: completely hide it
+//     terminalWrapper.style.display = "none";
+//   });
 });

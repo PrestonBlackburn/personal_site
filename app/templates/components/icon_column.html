@@ -7,11 +7,13 @@
         </div>
         <div class = "side-column-content">
             <div class="shine-wrapper">
-                <img src="static/img/mobo.png" alt="Logo" style="width:80px; height:auto; padding:10px;"/>
+                <img src="static/img/mobo.png" onclick="navigateTo('linux')" alt="Logo" style="width:80px; height:auto; padding:10px;"/>
             </div>
-            <img src="static/img/disk.png" alt="Logo" style="width:80px; height:auto; padding:10px;" class = "rotating-img"/>
-            <img src="static/img/linux.png" alt="Logo" style="width:100px; height:auto; padding:10px;" class = "shake-img"/>
-            <img src="static/img/duck.png" alt="Logo" style="width:80px; height:auto; padding:10px;" class = "shake-img"/>
+            <img src="static/img/disk.png" alt="Logo" onclick="navigateTo('videos')" style="width:80px; height:auto; padding:10px;" class = "rotating-img"/>
+            <img src="static/img/linux.png" alt="Logo" onclick="navigateTo('linux')" style="width:100px; height:auto; padding:10px;" class = "shake-img"/>
+            <img src="static/img/duck.png" alt="Logo" onclick="navigateTo('linux')" style="width:80px; height:auto; padding:10px;" class = "shake-img"/>
         </div>
     </div>
 </div>
+
+<script type="module" src="/static/js/pages/landing/navigation.js"></script>
