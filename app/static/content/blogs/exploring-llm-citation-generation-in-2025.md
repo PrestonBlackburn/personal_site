@@ -1,4 +1,4 @@
-**Exploring LLM Citation Generation In 2025**
+Exploring LLM Citation Generation In 2025
 =============================================
 
 May 7, 2025

@@ -1,4 +1,4 @@
-**Demystifying ODBC with Python**
+Demystifying ODBC with Python
 =================================
 
 Oct 16, 2024

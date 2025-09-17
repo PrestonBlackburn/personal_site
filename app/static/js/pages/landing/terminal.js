@@ -88,11 +88,35 @@ function handleCommand(cmdLine) {
         term.writeln("  goto blog <blog>  - go to blog (ex: goto blog 'Example Blog' or goto blog 1)");
         term.writeln("  echo <text>       - echo arguments");
         term.writeln("  clear             - clear the terminal");
+        term.writeln("  home              - go home");
         term.writeln("  help              - show this help");
+
         break;
 
         case "clear":
         term.clear();
+        break;
+
+        case "home":
+            try {
+            term.writeln(`Navigating to home...`);
+            setTimeout(() => {
+                term.write(".");
+            }, 150);
+            setTimeout(() => {
+                term.write(".");
+            }, 300);
+            setTimeout(() => {
+                term.write(".\r\n"); // finish with newline
+                // then actually navigate to the new tab
+                window.location.href = "/";
+            }, 500);
+            // e.g. trigger navigation in your app:
+            // window.location.href = `/blog/${target}`;
+            } catch (e) {
+            term.writeln(`Oops something went wrong, just type in / in the url bar!`);
+            prompt();
+            };
         break;
 
         case "ls":
@@ -234,3 +258,23 @@ function handleCommand(cmdLine) {
 
 // refit on resize
 addEventListener("resize", () => fit.fit());
+
+document.addEventListener("DOMContentLoaded", () => {
+  const terminalWrapper = document.querySelector(".terminal-wrapper");
+  const btnMin = terminalWrapper.querySelector(".btn-min");
+  const btnMax = terminalWrapper.querySelector(".btn-max");
+  // const btnClose = terminalWrapper.querySelector(".btn-close");
+
+  btnMin.addEventListener("click", () => {
+    terminalWrapper.classList.add("collapsed");
+  });
+
+  btnMax.addEventListener("click", () => {
+    terminalWrapper.classList.remove("collapsed");
+  });
+
+  btnClose.addEventListener("click", () => {
+    // Example: completely hide it
+    terminalWrapper.style.display = "none";
+  });
+});

@@ -8,6 +8,7 @@ import markdown
 from pathlib import Path
 import logging
 import os
+from datetime import datetime
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -41,7 +42,7 @@ def get_home_page(
     request: Request, 
     templates: Jinja2Templates, 
 ) -> HTMLResponse:
-    context = {"request": request}
+    context = {"request": request, "landing_page": True}
     # later - contextually show landing page stuff
     response = templates.TemplateResponse("pages/landing.html", context)
 
@@ -64,7 +65,7 @@ custom_md_pages = {
     "tools": Path(f"app/static/content/tools/my-tools.md"),
     "about": Path(f"app/static/content/about/about.md"),
     "contact": Path(f"app/static/content/contact/contact.md"),
-    "blogs": Path(f"app/static/content/blogs/summary.md"),
+    # "blogs": Path(f"app/static/content/blogs/summary.md"),
 }
 
 def generic_markdown_page_generator(content_path:Path):
@@ -79,7 +80,7 @@ def generic_markdown_page_generator(content_path:Path):
         md_text = content_path.read_text(encoding="utf-8")
         html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
 
-        context = {"request": request, "content": html}
+        context = {"request": request, "content": html, "landing_page": False}
         response = templates.TemplateResponse("pages/generic_md_page.html", context)
         print(response)
 
@@ -91,6 +92,46 @@ for page_route, content_path in custom_md_pages.items():
     app.add_api_route(f"/{page_route}", serve_md_page, response_class=HTMLResponse, methods=["GET"])
 
 
+
+def get_blog_metadata(blog_dir:Path = Path("app/static/content/blogs")):
+    blog_files = [f for f in blog_dir.glob("*.md") if f.is_file() and f.name != "summary.md"]
+    metadata = []
+    for blog_file in blog_files:
+        # Simple metadata extraction from filename, can be extended to read front-matter if needed
+        blog_data = {}
+        with open(blog_file, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+            title = lines[0].strip()
+            date = None
+            for line in lines[1:]:
+                if "," in line and line[0].isalpha():
+                    date = line.strip()
+                    break
+            thumbnail = None
+            for line in lines:
+                if line.startswith("![") and "(" in line and ")" in line:
+                    thumbnail = line.split("(", 1)[1].rsplit(")", 1)[0].strip()
+                    break
+
+            blog_data.update({"title": title, "date": date, "thumbnail_image": thumbnail, "slug": blog_file.stem})
+        metadata.append(blog_data)
+
+        # sort metadta by date (newest first)
+        metadata = sorted(metadata, key=lambda x: datetime.strptime(x['date'], "%b %d, %Y"), reverse=True)
+    return metadata    
+
+@app.get("/blogs", response_class=HTMLResponse)
+def serve_blogs_landing(
+    request: Request
+)-> HTMLResponse:
+    
+    blog_metadata = get_blog_metadata()
+
+    context = {"request": request, "blogs_metadata": blog_metadata}
+    response = templates.TemplateResponse("pages/blogs.html", context)
+    print(response)
+
+    return response
 
 @app.get("/blog/{page_name}", response_class=HTMLResponse)
 def serve_markdown_page(
@@ -123,3 +164,8 @@ def list_blogs():
     blog_dir = Path("app/static/content/blogs")
     blog_files = [f.stem for f in blog_dir.glob("*.md") if f.is_file() and f.name != "summary.md"]
     return {"blogs": blog_files}
+
+@app.get("/api/v1/blogs/metadata")
+def blogs_metadata():
+    metadata = get_blog_metadata()
+    return {"blogs": metadata}
