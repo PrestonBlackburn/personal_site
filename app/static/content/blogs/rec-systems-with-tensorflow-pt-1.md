@@ -3,7 +3,7 @@ Recommendation Systems With TensorFlow Recommenders and AWS
 
 Oct 24, 2021
 
-![TF Rec Beer](/static/img/blogs/rec-systems-with-tensorflow-pt-1/tf_beer_title.png)
+![TF Rec Beer](/static/img/blogs/rec-systems-with-tensorflow-pt-1/tf_beer_title.webp)
 
 
 ## Part 1: TensorFlow Recommenders (TFRS) + AWS Deployment  
@@ -37,11 +37,11 @@ To create my models, I used the **Beers, Breweries, and Beer Reviews dataset** o
 <br/>
 
 I added 18 of my own beer reviews to the “reviews.csv” file to make predictions for myself. To keep things simple, I only use score, text (text for the beer review), style, abv, and brewery name as features. I host the combined and filtered the datasets in the “final_reviews.csv” file on AWS S3, so you can download the file and follow along if you would like.
-![Import Data From S3](/static/img/blogs/rec-systems-with-tensorflow-pt-1/importData.png)
+![Import Data From S3](/static/img/blogs/rec-systems-with-tensorflow-pt-1/importData.webp)
 
 For collaborative filtering I got much better results when I only looked at users who had reviewed **10-100** beers.
 
-![Filter Ratings](/static/img/blogs/rec-systems-with-tensorflow-pt-1/filterRatingCounts.png)
+![Filter Ratings](/static/img/blogs/rec-systems-with-tensorflow-pt-1/filterRatingCounts.webp)
 
 
 ---
@@ -50,23 +50,23 @@ For collaborative filtering I got much better results when I only looked at user
 
 First, I’ll create the retrieval model that returns hundreds of beers that might be relevant to me. **Matrix factorization** is a popular technique used for retrieval and can be defined by a shallow neural network model. I’ll use TensorFlow Recommendations to easily implement matrix factorization.
 
-![Factorization Diagram](/static/img/blogs/rec-systems-with-tensorflow-pt-1/FactorizationModelDiagram.png)
+![Factorization Diagram](/static/img/blogs/rec-systems-with-tensorflow-pt-1/FactorizationModelDiagram.webp)
 
 Data prep:  
 - Convert Pandas DataFrame → TensorFlow dataset  
 - Map to dictionary format  
 - Define unique users + beers for embeddings  
 
-![Prep Retrieval Data](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetDataPrep.png)
+![Prep Retrieval Data](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetDataPrep.webp)
 
 Model definition:  
 Next, we can define the model by extending the `tfrs` class. I create two embedding layers, which are passed to the `FactorizedTopK` layer. The FactorizedTopK layer computes the metrics for the top K candidates. Compiling and training the model works just like any other TensorFlow model. I use tensorboard to examine the model, but using tensorboard is optional  
 
-![Retrieval Model](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetModel.png)
+![Retrieval Model](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetModel.webp)
 
 Then we can examine the model to see how well it return relevant beer reviews. You’ll notice the top 1-10 retrieval accuracy is very low, but the top 50-100 retrieval accuracy is somewhat better. We could spend more time tuning + adding features. However, in the interest of keeping things simple, we will move on using the current model.  
 
-![Retrieval Evaluation](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetEval.png)
+![Retrieval Evaluation](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetEval.webp)
 
 Lastly, we need to save and test the retrieval model. To search the output from the retrieval model we can use the BruteForce method since the dataset is small. In a production environment, the **ScaNN** library should be used for increased efficiency. Also, when I was looking into using ScaNN I found that it only runs on Linux, so you’ll need to spin up a Docker container to use it on Windows.
 
@@ -74,7 +74,7 @@ Lastly, we need to save and test the retrieval model. To search the output from 
 
 After the model has been trained, you can re-load it and test it. Note that “k” value dictates how many items will be retrieved from the model.
 
-![Save Retrieval Model](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetSave.png)
+![Save Retrieval Model](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetSave.webp)
 
 
 ---
@@ -86,29 +86,29 @@ Now that we have narrowed down the list of potential candidates from the retriev
 More in depth information on DCNs can be found on TensorFlow’s website:  
 [TensorFlow Recommenders DCN Example](https://www.tensorflow.org/recommenders/examples/dcn)  
 
-![DCN Diagram](/static/img/blogs/rec-systems-with-tensorflow-pt-1/dcnDiag.png) 
+![DCN Diagram](/static/img/blogs/rec-systems-with-tensorflow-pt-1/dcnDiag.webp) 
 
 We can add additional features for ranking such as the beer review text, beer style, alcohol percent, and brewery name. In this case, I only have features related to the beers, but if features related to the users were available, we could add those as well. Again, I’ll convert the pandas dataframe into a TensorFlow dataset then map the rows to a dictionary. We’ll also need to get the unique values for the input values as well.  
 
-![Ranking Data](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankDataPrep.png) 
+![Ranking Data](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankDataPrep.webp) 
 
 For this model I use a stacked DCN as described in the TensorFlow docs. The features are first embedded like in the retrieval model, but then they are passed to a cross layer and then into a deep layer. The use_cross_layer parameter can be set to False to analyze the model with and without the cross layer. The number and size of the deep layers also can be optimized using the deep_layer_sizes parameter.  
 
 
-![Ranking Model](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankModel.png)  
-![Training Ranking Model](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankTrain.png)  
+![Ranking Model](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankModel.webp)  
+![Training Ranking Model](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankTrain.webp)  
 
 When training the model, it would overfit very quickly, so I had to turn the learning rate down to `0.0001` and add in dropout layers.
 
-![Ranking Eval](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankEval.png)   
+![Ranking Eval](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankEval.webp)   
 
 We can check what the model has learned with the feature crosses by looking at the Frobenius norm of each weight matrix in the DCN.  
 
-![Ranking Cross Matrix](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankCrossMat.png)  
+![Ranking Cross Matrix](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankCrossMat.webp)  
 
 Based on the matrix, certain people may prefer certain breweries or beers with high or low abv. Once we are happy with the results, we can save the model.  
 
-![Ranking Test](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankTest.png)  
+![Ranking Test](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RankTest.webp)  
 
 ---
 
@@ -121,7 +121,7 @@ Now that both models have been created, we can test them out. First, the retriev
 Since this dataset is older not all the beers are still being produced, and some of the breweries are somewhat local. However, After reviewing my recommendations, it looks like there are a few beers that I can try.  
 
 
-![Combined Retrieval + Ranking](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetRankComb.png)   
+![Combined Retrieval + Ranking](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RetRankComb.webp)   
 
 ---
 
@@ -132,29 +132,29 @@ Finally, I’ll export the models to SageMaker and create an endpoint for hostin
 ### Model export  
 Before uploading the TensorFlow models, they will need to be translated to a format that SageMaker can read. By default, TensorFlow saves the models in a model folder that contains a “saved_model.pb” file, an assets folder, and a variables folder. To upload the models to SageMaker, the model folder must be renamed as an integer and placed inside an “export” and “Servo” folder. The file structure is shown below. Once the file structure has been updated, everything in the “export” folder can be saved in a model.tar.gz folder. This model.tar.gz file is what SageMaker will read to use the TensorFlow file. The code snippet below shows how to convert the models into a model.tar.gz format once the folder hierarchy has been created. In this case, I manually created the folder hierarchy first.  
 
-![Tar.gz conversion](/static/img/blogs/rec-systems-with-tensorflow-pt-1/targzConversion.png)  
+![Tar.gz conversion](/static/img/blogs/rec-systems-with-tensorflow-pt-1/targzConversion.webp)  
 
 ### SageMaker setup  
 Upload the .tar.gz files to S3, and we can get started with SageMaker. First, set up the SageMaker session and role. Next, define the bucket name, the dataset path, and the path for the two models in .tar.gz format.  
 
-![SageMaker Prep](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SagePrep.png)  
+![SageMaker Prep](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SagePrep.webp)  
 
 Once the models are in the correct format, it is straightforward to load them and create the endpoint. Like before, the modes will return the top 500 matches, and we will use the matches to pull the data for the ranking model.  
 
-![SageMaker Retrieval Endpoint](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageRet.png)  
+![SageMaker Retrieval Endpoint](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageRet.webp)  
 
 I’ll set up a second endpoint for the ranking mode in this post, but both models could share an endpoint. The SageMaker endpoint wants the data to be JSON readable for the ranking model, so we can’t use NumPy arrays. Instead, we can convert the pandas dataframe into a dictionary.  
 
-![SageMaker Ranking Endpoint](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageRank.png)  
-![Ranking Filter](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageRankFilter.png)  
+![SageMaker Ranking Endpoint](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageRank.webp)  
+![Ranking Filter](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageRankFilter.webp)  
 
 Finally, save our predictions back to S3 and shut down your endpoint. Endpoints can be expensive if you don’t forget to turn them off. In production, a frontend would call the endpoints instead of saving the outputs to a CSV file. The top X ranked beers could then be shown to the users. In part 2, I’ll dive into productionizing the current models + endpoints. For now, I will use the CSV file to test out some of the recommendations.   
 
-![SageMaker Save + Delete](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageSaveDel.png)  
+![SageMaker Save + Delete](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageSaveDel.webp)  
 
 Don’t forget to double-check that you have no endpoints still running in the SageMaker console.  
 
-![SageMaker Endpoints](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageEndpointCheck.png)   
+![SageMaker Endpoints](/static/img/blogs/rec-systems-with-tensorflow-pt-1/SageEndpointCheck.webp)   
 
 ---
 
@@ -162,11 +162,11 @@ Don’t forget to double-check that you have no endpoints still running in the S
 
 Now for the best part of this project- testing the model’s recommendations. I went through my predicted recommendations and found a few beers at my local liquor store. I stuck with larger brands like Odell’s and New Belgium, since I was fairly certain I could find them at the store.  
 
-![Recommended Beers](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RecommendedBeers.png)  
+![Recommended Beers](/static/img/blogs/rec-systems-with-tensorflow-pt-1/RecommendedBeers.webp)  
 
 Overall, the predictions were close to my actual rankings except for the Voodoo Ranger Juicy Haze IPA. The table below shows the model's predicted score and my actual score. I typically don’t go for unfiltered beers, so I might be somewhat biased against the Voodoo Ranger brew. The Rupture beer was my favorite of the four having a full, hoppy flavor. All of the ratings are out of 5.  
 
-![My Predictions](/static/img/blogs/rec-systems-with-tensorflow-pt-1/myPreds.png)  
+![My Predictions](/static/img/blogs/rec-systems-with-tensorflow-pt-1/myPreds.webp)  
 
 - **Rupture** was my favorite (full, hoppy flavor)  
 - **Voodoo Ranger Juicy Haze IPA** was ranked too high by the model (not my style)  

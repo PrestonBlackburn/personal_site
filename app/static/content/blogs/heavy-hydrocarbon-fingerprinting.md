@@ -3,7 +3,7 @@ Heavy Hydrocarbon Modeling With Multi-Target Regression
 
 Nov 9, 2020
 
-![Well Data Forecast](/static/img/blogs/heavy-hydrocarbon-fingerprinting/moderately_mature_white.png)
+![Well Data Forecast](/static/img/blogs/heavy-hydrocarbon-fingerprinting/moderately_mature_white.webp)
 
 
 <br/>
@@ -21,7 +21,7 @@ Other analyses are required to speciate the components in the plus fraction, but
 The “fingerprint” of an oil sample is the full chromatographic profile of the oil that results from analysis by a GC. While the full composition of the oil can be determined by one chromatograph run the sample usually must be ran (at least) twice to be fully quantified: once to determine the concentration of the light ends and again to determine the concentration the plus fractions.  
 
 **Fingerprint Example**  
-![example fingerprint](/static/img/blogs/heavy-hydrocarbon-fingerprinting/moderately_mature_white.png)
+![example fingerprint](/static/img/blogs/heavy-hydrocarbon-fingerprinting/moderately_mature_white.webp)
 
 
 Oil alternation affects will change the shape of the fingerprint of the samples. These affects include thermal alteration, biodegradation, water-washing, gas-washing, deasphalting, devolatilization, thermochemical sulfate reduction, contamination, and sampling issues (Dembicki 2016). In this post I will only focus on thermal alteration of the oil since it has a high impact on the oil sample’s plus fraction. Also, the data I had access to did not include Pristane and Phytane biomarkers, so it would be very hard to determine if any samples showed signs of biodegradation.  
@@ -29,10 +29,10 @@ Oil alternation affects will change the shape of the fingerprint of the samples.
 Thermal alteration or “oil maturation” happens at elevated reservoir temperatures and breaks down heavier hydrocarbon molecules into lighter compounds. This process exists on a continuum from the least mature oil to very mature oil. The least mature oil will have large amounts of heavy ends and display more of a multimodal Poisson distribution. The very mature oil will follow more of a typical Poisson distribution having low concentrations of heavy ends.  
 
 **Low Maturity Oil**  
-![low maturity fingerprint](/static/img/blogs/heavy-hydrocarbon-fingerprinting/lowMaturityOil.png)
+![low maturity fingerprint](/static/img/blogs/heavy-hydrocarbon-fingerprinting/lowMaturityOil.webp)
 
 **Very Mature Oil**  
-![Very Mature Oil](/static/img/blogs/heavy-hydrocarbon-fingerprinting/veryMatureOil.png)
+![Very Mature Oil](/static/img/blogs/heavy-hydrocarbon-fingerprinting/veryMatureOil.webp)
 
 ---
 
@@ -41,16 +41,16 @@ Thermal alteration or “oil maturation” happens at elevated reservoir tempera
 The dataset for this model was small. It only consisted of just over 100 samples. I tested a few models, but XGBoost and random forest performed the best. It outperformed the neural network significantly, likely because of the small dataset size. Since the results of the random forest model and XGBoost were close, I decided to stick with XGBoost for the rest of my testing. Some results are shown below.  
 
 **Model Comparison Table**  
-![Model Comparisons](/static/img/blogs/heavy-hydrocarbon-fingerprinting/modelResultsSummary.jpg)  
+![Model Comparisons](/static/img/blogs/heavy-hydrocarbon-fingerprinting/modelResultsSummary.webp)  
 
 **XGBoost Results**  
-![XGBoost Results](/static/img/blogs/heavy-hydrocarbon-fingerprinting/predvsTrue2d.png)   
+![XGBoost Results](/static/img/blogs/heavy-hydrocarbon-fingerprinting/predvsTrue2d.webp)   
 
 **XGBoost Summary**  
-![xgboost summary](/static/img/blogs/heavy-hydrocarbon-fingerprinting/xgboostSummary.jpg)  
+![xgboost summary](/static/img/blogs/heavy-hydrocarbon-fingerprinting/xgboostSummary.webp)  
 
 **XGBoost Model Examples**  
-![xgboost examples](/static/img/blogs/heavy-hydrocarbon-fingerprinting/multiFingerprintData.png)  
+![xgboost examples](/static/img/blogs/heavy-hydrocarbon-fingerprinting/multiFingerprintData.webp)  
 
 ---
 

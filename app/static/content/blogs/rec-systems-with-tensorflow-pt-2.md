@@ -3,7 +3,7 @@ Recommendation Systems With TensorFlow Recommenders and AWS (Part 2)
 
 Dec 1, 2021
 
-![TF Rec Beer](/static/img/blogs/rec-systems-with-tensorflow-pt-2/beer_rec_pt_2_title.png)
+![TF Rec Beer](/static/img/blogs/rec-systems-with-tensorflow-pt-2/beer_rec_pt_2_title.webp)
 
 ## Part 2: Pipeline Development and Automation  
 
@@ -24,7 +24,7 @@ All of the code for this project is on my GitHub: &nbsp;
 
 The architecture diagram for the pipeline auto-deployment is shown below. 
 
-![ArchDiagram](/static/img/blogs/rec-systems-with-tensorflow-pt-2/beer_rec_pt_2_title.png)
+![ArchDiagram](/static/img/blogs/rec-systems-with-tensorflow-pt-2/beer_rec_pt_2_title.webp)
 
 ## SageMaker Pipelines
 
@@ -56,7 +56,7 @@ SageMaker Pipelines have a nice built in DAG (directed acyclic graph) that will 
 Once the pipeline is created the DAG will automatically be generated. For the pipeline we will process the initial data, train the models,
 evaluate the model performance, and save the model to the model registry. 
 
-![pipelineDiagram](/static/img/blogs/rec-systems-with-tensorflow-pt-2/sageMakerPipelineGraph.png)
+![pipelineDiagram](/static/img/blogs/rec-systems-with-tensorflow-pt-2/sageMakerPipelineGraph.webp)
 
 
 ## Retrieval Pipeline Walkthrough
@@ -65,18 +65,18 @@ To start we can define some initial parameters that can be easily changed when w
 If you need to execute the pipeline again the parameters defined here can be changed in the SageMaker 
 Pipeline GUI, or using Boto3 (for deployment through Lambda). 
 
-![initialParams](/static/img/blogs/rec-systems-with-tensorflow-pt-2/initialParameters.png)
+![initialParams](/static/img/blogs/rec-systems-with-tensorflow-pt-2/initialParameters.webp)
 
 Parameters will show up in the parameters section of the pipeline in the SageMaker studio GUI as shown below.
 
-![pipelineParams](/static/img/blogs/rec-systems-with-tensorflow-pt-2/sagemakerPipelineParameters.png)
+![pipelineParams](/static/img/blogs/rec-systems-with-tensorflow-pt-2/sagemakerPipelineParameters.webp)
 
 Next, we’ll need to write a script for the preprocessing job. In scripts for SageMaker jobs it is important to
 remember SageMaker is looking for particular file paths in the docker container that need to be specified.
 In the preprocessing job the path is `/opt/ml/processing`. The script can be saved in the current directory
 using the `writefile` command. 
 
-![processJob](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalProcessJob.png)
+![processJob](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalProcessJob.webp)
 
 
 Once the processing script is created, we need to set up the processor that will execute the processing job 
@@ -100,7 +100,7 @@ you can enable caching of pipeline steps. If you enable caching the pipeline ste
 and can be set to expire after a set amount of time. I probably could have saved several hours of testing 
 time if I had known about this trick earlier. 
 
-![processStep](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalProcessStep.png)
+![processStep](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalProcessStep.webp)
 
 Now we can move on to creating the training job script. Most of this section will look familiar to retrieval
 model that we created in part 1 of this series. This script is really long, so I’ll post the whole notebook
@@ -108,10 +108,10 @@ on GitHub and only cover the major differences here. The main difference is that
 need be passed as arguments using the `ArgumentParser()`. Remember where the model is saved since we’ll need
 that to call the model for the eval job. In this case I saved the model to the directory `01`. 
 
-![trainingJob](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalTrainingScript1.png)
+![trainingJob](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalTrainingScript1.webp)
 
 
-![trainingJob2](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalTrainingScript2.png)
+![trainingJob2](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalTrainingScript2.webp)
 
 
 Since we are using TensorFlow Recommenders, we can’t use the out of the box TensorFlow image to run the training job.
@@ -120,7 +120,7 @@ container from scratch. All we need to do is create a requirements.txt file then
 estimator. Once the estimator is defined, we can create the training step. The training step references the
 “train” output from the earlier processing step. 
 
-![trainingStep1](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalTrainingStep1.png)
+![trainingStep1](/static/img/blogs/rec-systems-with-tensorflow-pt-2/retrievalTrainingStep1.webp)
 
 
 The final job will be the validation step to make sure the model achieves the desired degree of accuracy. Since we 
@@ -130,7 +130,7 @@ SageMaker saves models in mode.tar.gz format, so we need to extract the model be
 piece is that we need to save the model results in json format, so they can be read later. This json file needs
 to follow a predetermined format specified by AWS. 
 
-![valJob](/static/img/blogs/rec-systems-with-tensorflow-pt-2/validationScript.png)
+![valJob](/static/img/blogs/rec-systems-with-tensorflow-pt-2/validationScript.webp)
 
 
 Now that the validation script is created, we can create the processor and processing step like we did for
@@ -141,7 +141,7 @@ it works just like any other TensorFlow model. To evaluate the performance we ne
 file for SageMaker to read the top-500 accuracy score. The property file can then be included in the
 processing step. 
 
-![valStep](/static/img/blogs/rec-systems-with-tensorflow-pt-2/valScript.png)
+![valStep](/static/img/blogs/rec-systems-with-tensorflow-pt-2/valScript.webp)
 
 All the SageMaker scripts and jobs are complete! Now we need to register the model. Registering the model
 makes it easy to access to create endpoints, and it makes it easy to track the history of the models.
@@ -149,11 +149,11 @@ After the pipeline runs and the model is registered the model package group will
 model registry. We’ll also show the model accuracy in the registry by adding the model metrics from the
 validation json file. 
 
-![registerModel](/static/img/blogs/rec-systems-with-tensorflow-pt-2/RegisterModel.png)
+![registerModel](/static/img/blogs/rec-systems-with-tensorflow-pt-2/RegisterModel.webp)
 
 We’ll also add a condition step to check the accuracy of the model. If it is under **0.5** we won’t register the model. 
 
-![conditionStep](/static/img/blogs/rec-systems-with-tensorflow-pt-2/ConditionStep.png)
+![conditionStep](/static/img/blogs/rec-systems-with-tensorflow-pt-2/ConditionStep.webp)
 
 All the steps have been defined, so we can define the full pipeline now. We’ll need to add all the parameters and steps 
 we specified. The pipeline is created based on the dependencies of the steps and not how they are passed in below.
@@ -161,49 +161,49 @@ When I first setup the pipeline I was saving all the data directly to S3 after t
 passing it to the training step. Since nothing was linking the processing step and training step, they both 
 executed at the same time until I pointed the input for the training step to the output of the processing step.   
 
-![createPipeline](/static/img/blogs/rec-systems-with-tensorflow-pt-2/createPipeline.png)
+![createPipeline](/static/img/blogs/rec-systems-with-tensorflow-pt-2/createPipeline.webp)
 
 Now that the pipeline is defined, we can create it (or update it) using upsert and run the pipeline using start.  
 
-![executePipeline](/static/img/blogs/rec-systems-with-tensorflow-pt-2/executePipeline.png)
+![executePipeline](/static/img/blogs/rec-systems-with-tensorflow-pt-2/executePipeline.webp)
 
 
 We can check on the status of the pipeline by going to pipelines in the SageMaker Resources tab.
 Each step in the pipeline will have a status that can be tracked as the pipeline executes.   
 
-![sagemakerResources](/static/img/blogs/rec-systems-with-tensorflow-pt-2/sagemakerResources.png)
+![sagemakerResources](/static/img/blogs/rec-systems-with-tensorflow-pt-2/sagemakerResources.webp)
 
-![pipelineDiagram](/static/img/blogs/rec-systems-with-tensorflow-pt-2/SageMakerAutostartArchetecture.png)
+![pipelineDiagram](/static/img/blogs/rec-systems-with-tensorflow-pt-2/SageMakerAutostartArchetecture.webp)
 
 Finally, we can automate re-running the pipeline using EventBridge and Lambda. First create a lambda function with a python runtime.   
 
-![createLambda](/static/img/blogs/rec-systems-with-tensorflow-pt-2/createLambda.png)
+![createLambda](/static/img/blogs/rec-systems-with-tensorflow-pt-2/createLambda.webp)
 
 After the lambda function is created, we will need to give it permissions to use SageMaker resources. The easiest way to do this 
 is by attaching SageMaker policies to the lambda function’s role. To do this go to the configuration and permissions tab in the
 lambda function and select the execution role for the lambda function.
 
-![lambdaExecution](/static/img/blogs/rec-systems-with-tensorflow-pt-2/lambdaExecutionRole.png)
+![lambdaExecution](/static/img/blogs/rec-systems-with-tensorflow-pt-2/lambdaExecutionRole.webp)
 
 Then add the SageMaker full access policy and the SageMaker execution policy to the lambda function role. 
 This allows the Lambda function to do anything that SageMaker can, so use it with caution.  
 
-![lambdaPolicy](/static/img/blogs/rec-systems-with-tensorflow-pt-2/LambdaPolicy.png)
+![lambdaPolicy](/static/img/blogs/rec-systems-with-tensorflow-pt-2/LambdaPolicy.webp)
 
 Next go back to the code tab and add the code to execute the SageMaker pipeline. The start_pipeline_execution
 function is all you need, and you can even modify any of the parameters that we specified at the very beginning 
 of this post. I also return the response of the execution, but it is just as easy to go back over to SageMaker
 Studio and view the pipeline. 
 
-![lambdaFunction](/static/img/blogs/rec-systems-with-tensorflow-pt-2/LambdaFunctionCode.png)
+![lambdaFunction](/static/img/blogs/rec-systems-with-tensorflow-pt-2/LambdaFunctionCode.webp)
 
 Scheduling an execution is simple with EventBridge. Just add a trigger for the lambda function and select **EventBridge**. 
 
-![lambdaFunctionOverview](/static/img/blogs/rec-systems-with-tensorflow-pt-2/LambdaFunction.png)
+![lambdaFunctionOverview](/static/img/blogs/rec-systems-with-tensorflow-pt-2/LambdaFunction.webp)
 
 Specify a trigger configuration to your liking and add it. 
 
-![triggerConfig](/static/img/blogs/rec-systems-with-tensorflow-pt-2/eventBridgeConfig.png)
+![triggerConfig](/static/img/blogs/rec-systems-with-tensorflow-pt-2/eventBridgeConfig.webp)
 
 
 Now the pipeline is all set to re-run every 7 days. If we update the data in the S3 bucket within that time the new data will be used 

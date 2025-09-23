@@ -3,7 +3,7 @@ Machine Learning Assisted Analysis of Condensate Mixtures
 
 Jan 4, 2021
 
-![Modeled Results](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/RD_holdout_with_dead.png)
+![Modeled Results](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/RD_holdout_with_dead.webp)
 
 
 Some liquid analyses in the oil and gas industry can be improved or shortened using machine learning.  
@@ -18,11 +18,11 @@ In my first model I look at the results with only replacing the 30-minute gas ch
 ## Model Applications
 
 **Model 1 Applied to GPA 2103 Process**  
-![GPA-2103-process-long](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/process_flow_chart_long.png)
+![GPA-2103-process-long](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/process_flow_chart_long.webp)
   
 
 **Model 2 Applied to GPA 2103 Process**  
-![GPA-2103-process-short](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/process_flow_chart_short.png)
+![GPA-2103-process-short](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/process_flow_chart_short.webp)
 
 ---
 
@@ -37,14 +37,14 @@ If you are interested in learning more about the data used for this model and th
 Using **SHAP (Shapley Additive exPlanations)** I found that the unpressurized molecular weight and relative density were important to modeling the pressurized molecular weight and relative density, as you would expect. That is why I chose to create two models, one without the unpressurized measurements and one including them.  
 
 **Feature Selection – Molecular Weight**  
-![shap-plot-mw](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/XGB_SHAP_MW.png)
+![shap-plot-mw](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/XGB_SHAP_MW.webp)
 **Feature Selection – Relative Density**  
-![shap-plot-rd](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/XGB_SHAP_SG.png) 
+![shap-plot-rd](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/XGB_SHAP_SG.webp) 
 
 To create the model, I used a **stacked ensemble architecture**. Linear models, such as linear support vector machines, fit the data poorly, so I left them out of my ensemble. The random forest model and gradient boosting model were taken from Scikit-learn, and the neural networks were created using the Keras API for TensorFlow. I added the **XGBoost** and **LightGBM** gradient boosting models because of their well-known high performance.  
 
 **Ensemble Model Design**  
-![model architecture](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/Ensemble_model.png) 
+![model architecture](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/Ensemble_model.webp) 
 
 ---
 
@@ -53,13 +53,13 @@ To create the model, I used a **stacked ensemble architecture**. Linear models, 
 The results of the models for predicting pressurized molecular weight and relative density are shown below. As expected, the models without measured molecular weight and relative density performed slightly worse. However, the decrease in accuracy still might be acceptable given the decreased analysis time.  
 
 **Modeled Values vs Measured Values**  
-![modeled vs measured values](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/predictions_subplots_all.png) 
+![modeled vs measured values](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/predictions_subplots_all.webp) 
 
 *(a) Model 1 molecular weight prediction accuracy. (b) Model 2 molecular weight prediction accuracy.  
 (c) Model 1 relative density prediction accuracy. (d) Model 2 relative density prediction accuracy.*  
 
 **Summary Table**  
-![summary table](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/Performance_Summary_Table.jpg)   
+![summary table](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/Performance_Summary_Table.webp)   
 
 ---
 
@@ -68,14 +68,14 @@ An alternative to measuring molecular weight in GPA 2103 is to use the **Cragoe 
 In the table below the results from the models are compared to GPA 2103 when using the Cragoe correlation for a sample. From those results the models perform similarly, if not better, than using the Cragoe correlation. Furthermore, the time savings are much greater when using the machine learning models compared to the Cragoe correlation.  
 
 **Case Study Comparison**  
-![Case Study](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/case_study.png)    
+![Case Study](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/case_study.webp)    
 
 ---
 
 I was also interested in looking at the uncertainty associated with the models to see if there are any samples that the models should not be applied to. To analyze uncertainty, I used **negative logarithmic loss function** on the meta model. With the negative log loss function both the mean and variance can be produced using maximum likelihood methods.  
 
 **Uncertainty vs Predicted Values**  
-![Uncertainties](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/MDN_error_all.png)
+![Uncertainties](/static/img/blogs/ml-modeling-of-condensate-mixture-properties/MDN_error_all.webp)
 *(a) Model 1 molecular weight vs predicted standard deviation.  
 (b) Model 2 molecular weight vs predicted standard deviation.  
 (c) Model 1 relative density vs predicted standard deviation.  
