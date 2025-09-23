@@ -3,7 +3,7 @@ Oil Production Forecasting With Neural Networks
 
 Dec 30, 2020
 
-![Well Data Forecast](/static/img/blogs/oil-production-forcasting/well_data.png)
+![Well Data Forecast](/static/img/blogs/oil-production-forcasting/well_data.webp)
 
 Production forecasting is used to predict the future performance of an oil or gas well. Typically, these predictions
     are referred to as decline curves because the production of a well decreases with time. Usually, oil and gas wells 
@@ -33,7 +33,7 @@ For this case study, data was taken from the Texas Railroad Commission (RRC). Th
 
 The dataset can be found on my GitHub: [Production Data](https://raw.githubusercontent.com/PrestonBlackburn/production-data-texas/master/Texas_well_production.csv)
 
-![Well Data Forecast](/static/img/blogs/oil-production-forcasting/well_data.png)
+![Well Data Forecast](/static/img/blogs/oil-production-forcasting/well_data.webp)
 
 
 ---
@@ -42,7 +42,7 @@ The dataset can be found on my GitHub: [Production Data](https://raw.githubuserc
 
 My Bayesian deep learning model’s architecture takes aspects of top-performing neural network architectures and combines them with Monte Carlo (MC) Dropout to approximate a Bayesian prediction. The architecture used is a dilated convolutional neural network (CNN) with LSTM cells, which have been shown to perform well in data science competitions like those hosted by Kaggle. Applying MC dropout can estimate what a Bayesian network might look like while keeping computation costs down. The mean prediction, 95% credible interval, and 50 predictions ran with MC dropout are shown in the graph below. For the 50 predictions, the opacity is turned down to make the mean prediction and credible interval easier to see. The model seems like it might be a little under confident about its forecast, but I will make another post going over the reliability diagram in the future.
 
-![MC-Dropout](/static/img/blogs/oil-production-forcasting/MC_dropout_data.png)
+![MC-Dropout](/static/img/blogs/oil-production-forcasting/MC_dropout_data.webp)
 
 ---
 
@@ -52,8 +52,8 @@ Probabilistic methods can be applied to ARPs curve predictions to simulate vario
 
 Arps Equation Used:
 
-![arps-equation](/static/img/blogs/oil-production-forcasting/arps_equation.jpg)
-![arps-graph](/static/img/blogs/oil-production-forcasting/ARPS_data.png)
+![arps-equation](/static/img/blogs/oil-production-forcasting/arps_equation.webp)
+![arps-graph](/static/img/blogs/oil-production-forcasting/ARPS_data.webp)
 
 ---
 
@@ -61,7 +61,7 @@ Arps Equation Used:
 
 Facebook Prophet uses Bayesian methods for prediction that are easily applied at scale. It is based on a generative additive model that considers changepoints, trends, seasonality, and more. In the model below, the default FB Prophet model was used with minimal tuning. Better results may be obtained by tuning. The uncertainty interval is shown by the light blue lines in the graph below. The model also seems to be overconfident about its uncertainty interval since some of the actual production values are out of range.  
 
-![fb-prophet-graph](/static/img/blogs/oil-production-forcasting/fb_data.png)
+![fb-prophet-graph](/static/img/blogs/oil-production-forcasting/fb_data.webp)
 
 ---
 
@@ -71,11 +71,11 @@ I compare the mean prediction of all three models below for the last 40 months b
 
 <br/>
 
-![model-comparisons](/static/img/blogs/oil-production-forcasting/Model_comparisons.png)
+![model-comparisons](/static/img/blogs/oil-production-forcasting/Model_comparisons.webp)
 
 Performance Summary:  
 
-![model-summary](/static/img/blogs/oil-production-forcasting/Results Summary.png)
+![model-summary](/static/img/blogs/oil-production-forcasting/Results Summary.webp)
 
 ---
 
