@@ -2,10 +2,14 @@
   <div class="blog-content">
     {% for blog_info in blogs_metadata %}
         <div class="blog-summary">
+            <br/>
+            <br/>
             <h3><a href="/blog/{{ blog_info.slug }}">{{ blog_info.title }}</a></h3>
             <p class="blog-date">{{ blog_info.date }}</p>
             <img src="{{ blog_info.thumbnail_image }}" alt="{{blog_info.title}} thumbnail" width="300"/>  
+            <br/>
             <a href="/blog/{{ blog_info.slug }}" class="read-more">Read More</a>
+            <br/>
             <br/>
             <br/>
             <hr>

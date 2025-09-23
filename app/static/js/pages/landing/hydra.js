@@ -72,7 +72,7 @@ function hydraRetro() {
     // licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
     // by Zach Krall
     // http://zachkrall.online/
-
+    
     osc(2, 0.9, 300)
     .color(0.9, 0.7, 0.8)
     .diff(

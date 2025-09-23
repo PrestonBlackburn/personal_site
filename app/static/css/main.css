@@ -287,18 +287,18 @@ animation: shine 0.8s forwards;
 }
 /* Headings */
 .blog-content h1 {
-    font-size: 4.2rem;   /* bigger main title */
-    margin: 1.0em 0 0.6em 0;
+    font-size: 3.0rem;   /* bigger main title */
+    margin: .75em 0 0.1em 0;
     color: #A3BE8C;
 }
 .blog-content h2 {
-    font-size: 3.8rem;
-    margin: 1.1em 0 0.5em 0;
+    font-size: 2.0rem;
+    margin: 0.5em 0 0.1em 0;
     color: #A3BE8C;
 }
 .blog-content h3 {
-    font-size: 2.4rem;
-    margin: 1em 0 0.4em 0;
+    font-size: 1.5rem;
+    margin: 0.25em 0 0.1em 0;
     color: #A3BE8C;
 }
 /* Paragraphs */
