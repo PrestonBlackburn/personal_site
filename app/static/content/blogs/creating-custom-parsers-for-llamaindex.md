@@ -3,7 +3,7 @@ Creating Custom Parsers For LlamaIndex
 
 Jun 17, 2024
 
-![Custom Markdown Parsing With LlamaIndex](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*9Lpmn1RZvxd0FqhVcxe0Wg.png)
+![Custom Markdown Parsing With LlamaIndex](/static/img/blogs/creating-custom-parsers-for-llamaindex/llama_index_thumbnail.png)
 
 LlamaIndex has some good built-in tools for most standard document parsing cases, but if you have more specific document splitting needs, you may need to create your own custom parser.
 
