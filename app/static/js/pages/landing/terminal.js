@@ -257,7 +257,16 @@ function handleCommand(cmdLine) {
 };
 
 // refit on resize
-addEventListener("resize", () => fit.fit());
+function setResponsiveFont(term, fit) {
+    const isMobile = window.innerWidth < 768;
+    term.options.fontSize = isMobile ? 20 : 14;
+    fit.fit(); // reflow to match new font size
+}
+
+// initial setup
+setResponsiveFont(term, fit);
+
+addEventListener("resize", () => setResponsiveFont(term, fit));
 
 document.addEventListener("DOMContentLoaded", () => {
   const terminalWrapper = document.querySelector(".terminal-wrapper");
@@ -278,3 +287,4 @@ document.addEventListener("DOMContentLoaded", () => {
 //     terminalWrapper.style.display = "none";
 //   });
 });
+
