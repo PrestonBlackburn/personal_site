@@ -162,8 +162,25 @@ def list_pages():
 @app.get("/api/v1/blogs")
 def list_blogs():
     blog_dir = Path("app/static/content/blogs")
-    blog_files = [f.stem for f in blog_dir.glob("*.md") if f.is_file() and f.name != "summary.md"]
-    return {"blogs": blog_files}
+    blog_files = [f for f in blog_dir.glob("*.md") if f.is_file() and f.name != "summary.md"]
+    metadata = []
+    for blog_file in blog_files:
+        # Simple metadata extraction from filename, can be extended to read front-matter if needed
+        blog_data = {}
+        with open(blog_file, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+            title = lines[0].strip()
+            date = None
+            for line in lines[1:]:
+                if "," in line and line[0].isalpha():
+                    date = line.strip()
+                    break
+            blog_data.update({"title": title, "date": date})
+        metadata.append(blog_data)
+    ordered_blogs = sorted(metadata, key=lambda blog_info: datetime.strptime(blog_info['date'], "%b %d, %Y"), reverse=True)
+    ordered_blogs_list = [blog['title'] for blog in ordered_blogs]
+
+    return {"blogs": ordered_blogs_list}
 
 @app.get("/api/v1/blogs/metadata")
 def blogs_metadata():
