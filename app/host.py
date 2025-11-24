@@ -36,6 +36,8 @@ templates = Jinja2Templates(directory="app/templates")
 
 # static files (nees to be called before the router for pathing)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
+# Serve robots.txt and sitemap.xml
+app.mount("/", StaticFiles(directory="app/static/metadata"), name="metadata")
 
 
 def get_home_page(

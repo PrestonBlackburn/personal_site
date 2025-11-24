@@ -30,6 +30,14 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}/personal_site
 
+      - name: Generate Sitemap
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12' 
+      - run: |
+          python app/generate_sitemap.py
+
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
