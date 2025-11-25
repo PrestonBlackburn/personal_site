@@ -8,6 +8,8 @@ metadata:
   #   cert-manager.io/cluster-issuer: "letsencrypt-prod"
   #   nginx.ingress.kubernetes.io/ssl-redirect: "true"
 
+# Ingress isn't really necessary since we'l use cloudflare for public access
+ 
 spec:
   ingressClassName: nginx
   # for prod
@@ -23,6 +25,6 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: personal_site
+              name: personal_site_prod
               port:
                 number: 8000
