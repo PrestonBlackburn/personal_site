@@ -60,7 +60,7 @@ body {
 }
 
 #terminal {
-    height: 500px;
+    height: 475px;
     padding: 8px;
     transition: height 0.3s ease;
 }
@@ -181,13 +181,24 @@ display: none !important;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     overflow: hidden;
-    width: 390px;
+    width: 500px;
     max-width: 95%;
     margin: 40px auto;
     color: #9ECE6A;
     display: flex;
     flex-direction: column;
-    
+}
+
+.center-column-wrapper {
+    position: relative;
+    z-index: 1; /* on top of hydra canvas */
+    background:  rgba(41,46,63,0.9);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    width: 800px;
+    max-width: 95%;
+    margin: 10px auto;
 }
 
 .side-column-content {
@@ -197,6 +208,15 @@ display: none !important;
     align-items: center;
     gap: 20px;
     height: 500px;
+    padding: 40px 0;            
+}
+.center-column-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    height: 250;
     padding: 40px 0;            
 }
 
@@ -320,7 +340,7 @@ content: "";
 position: absolute;
 top: 0;
 left: -75%;
-width: 50%;
+width: 75%;
 height: 100%;
 background: linear-gradient(
     120deg,
@@ -332,7 +352,7 @@ transform: skewX(-25deg);
 }
 
 .shine-wrapper:hover::after {
-animation: shine 0.8s forwards;
+animation: shine 0.4s forwards;
 }
 
 @keyframes shine {
@@ -355,7 +375,7 @@ animation: shine 0.8s forwards;
     }
     .simple-img {
         display: block;
-        width: 180px;
+        width: 80px;
     }
     .side-column-content {
         display: flex;
@@ -364,6 +384,15 @@ animation: shine 0.8s forwards;
         align-items: center;
         gap: 20px;
         height: 80%;
+        padding: 40px 0;            
+    }
+    .center-column-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        gap: 20px;
+        height: 40%;
         padding: 40px 0;            
     }
 }

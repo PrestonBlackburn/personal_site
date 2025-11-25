@@ -1,4 +1,4 @@
-Hacktoberfest 2025 Review: Good Intentions, Bad Incentives
+Hacktoberfest 2025 Review
 ==========================================================
 
 Oct 29, 2025

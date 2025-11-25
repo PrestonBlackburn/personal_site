@@ -1,4 +1,4 @@
-Serverless Machine Learning – Stock Sentiment App
+Serverless ML Stock Predictions
 =============================================
 
 Sep 6, 2021

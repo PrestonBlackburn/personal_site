@@ -1,4 +1,4 @@
-Solar Powered Aquaponics System With Monitoring
+Solar Powered Aquaponics
 ================================================
 
 May 29, 2022

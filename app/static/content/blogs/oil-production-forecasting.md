@@ -1,4 +1,4 @@
-Oil Production Forecasting With Neural Networks
+Oil Production Forecasting
 =============================================
 
 Dec 30, 2020

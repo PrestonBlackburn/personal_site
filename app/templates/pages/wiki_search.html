@@ -1,0 +1,149 @@
+<!-- <link rel="stylesheet" href="/static/css/wiki_style_home.css"> -->
+<link rel="stylesheet" href="/static/css/wiki_style_home_long.css">
+
+{% extends 'base_wiki.html' %}
+
+{% block content %}
+
+
+<main>
+<div class="central-textlogo" style="padding-top: -50px;">
+    
+<span>
+<img style="position: absolute; left: 35px; top: -70px" src="/static/img/wiki/icons/wiki_title.svg" width="200" height="183" alt="">
+</span>
+
+<img class="central-featured-logo" src="/static/img/wiki/icons/wiki_logo.svg" width="425" height="500" alt="" style = "margin-left: -100px;" >
+<h1 class="central-textlogo-wrapper">
+
+
+
+<strong class="jsl10n localized-slogan" data-jsl10n="portal.slogan">It's Free</strong>
+</h1>
+</div>
+
+<nav data-jsl10n="top-ten-nav-label" aria-label="Top languages" class="central-featured" data-el-section="primary links">
+<!-- #1. en.wikipedia.org - 1,627,445,000 views/day -->
+<div class="central-featured-lang lang1" lang="en" dir="ltr">
+<a id="js-link-box-en" href="/wiki" title="English — Wiki — It's Free" class="link-box" data-slogan="It's Free">
+<strong>English</strong>
+<small>250+ <span>articles</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang2" lang="ja" dir="ltr">
+<a id="js-link-box-ja" href="/wiki" title="Nihongo — ウィキペディア — フリー百科事典" class="link-box" data-slogan="フリー百科事典">
+<strong>日本語</strong>
+<small>0+ <span>記事</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang3" lang="ru" dir="ltr">
+<a id="js-link-box-ru" href="/wiki" title="Russkiy — Википедия — Свободная энциклопедия" class="link-box" data-slogan="Свободная энциклопедия">
+<strong>Русский</strong>
+<small>0+ <span>статей</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang4" lang="de" dir="ltr">
+<a id="js-link-box-de" href="/wiki" title="Deutsch — Wiki — Die freie Enzyklopädie" class="link-box" data-slogan="Die freie Enzyklopädie">
+<strong>Deutsch</strong>
+<small>0+ <span>Artikel</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang5" lang="fr" dir="ltr">
+<a id="js-link-box-fr" href="/wiki" title="Français — Wiki — L’encyclopédie libre" class="link-box" data-slogan="L’encyclopédie libre">
+<strong>Français</strong>
+<small>0+ <span>articles</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang6" lang="es" dir="ltr">
+<a id="js-link-box-es" href="/wiki" title="Español — Wiki — La enciclopedia libre" class="link-box" data-slogan="Es libre">
+<strong>Español</strong>
+<small>0+ <span>artículos</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang7" lang="zh" dir="ltr">
+<a id="js-link-box-zh" href="/wiki" title="Zhōngwén — 维基百科 / 維基百科 — 自由的百科全书 / 自由的百科全書" class="link-box localize-variant" data-slogan="自由的百科全书 / 自由的百科全書">
+<strong>中文</strong>
+<small>0+ <span>条目 / 條目</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang8" lang="it" dir="ltr">
+<a id="js-link-box-it" href="/wiki" title="Italiano — Wiki — L'enciclopedia libera" class="link-box" data-slogan="L'enciclopedia libera">
+<strong>Italiano</strong>
+<small>0+ <span>voci</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang9" lang="pl" dir="ltr">
+<a id="js-link-box-pl" href="/wiki" title="Polski — Wiki — Wolna encyklopedia" class="link-box" data-slogan="Wolna encyklopedia">
+<strong>Polski</strong>
+<small>0+ <span>haseł</span></small>
+</a>
+</div>
+
+<div class="central-featured-lang lang10" lang="pt" dir="ltr">
+<a id="js-link-box-pt" href="/wiki" title="Português — Wiki — A Enciclopédia Livre" class="link-box" data-slogan="A Enciclopédia Livre">
+<strong>Português</strong>
+<small>0+ <span>artigos</span></small>
+</a>
+</div>
+</nav>
+
+
+
+<div role="search" class="search-container">
+<form 
+  class="pure-form"
+  id="custom-search-form"
+  hx-post="/wiki/search"
+  hx-target="#search-results"
+  hx-indicator="#loading">
+
+<fieldset>
+<div class="search-input" id="search-input">
+<label for="searchInput" class="screen-reader-text">
+    Search Wiki
+</label>
+<input 
+    id="searchInput" 
+    name="search_text" 
+    type="search" 
+    size="20" 
+    autofocus="autofocus" 
+    accesskey="F" 
+    dir="auto" 
+    autocomplete="off" 
+    style="padding-right: 64px;"
+>
+<div id="typeahead-suggestions"></div></div>
+<button class="pure-button pure-button-primary-progressive" type="submit">
+<!-- <i class="sprite svg-search-icon" data-jsl10n="search-input-button">
+    Search
+</i> -->
+Search
+</button>
+</fieldset>
+
+</form>
+
+</div>
+
+
+<hr>
+
+
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column;" id="search-results"></div>
+
+<!-- <div id="loading" class="htmx-indicator" style="display: flex; align-items: center; justify-content: center;" >
+  Loading results…
+</div> -->
+
+</main>
+
+{% endblock %}

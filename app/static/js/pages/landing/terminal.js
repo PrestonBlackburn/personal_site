@@ -168,6 +168,21 @@ function handleCommand(cmdLine) {
         break;
 
         case "goto":
+
+        (async () => {
+            // Wait for blogs if cache is empty
+            if (blogsCache.length === 0) {
+                try {
+                    const r = await fetch("/api/v1/blogs");
+                    const blogs = await r.json();
+                    blogsCache = blogs.blogs;
+                } catch (err) {
+                    term.writeln(`Error fetching blogs: ${err}`);
+                    prompt();
+                    return;
+                }
+            }
+
             if (subcmd === "page") {
                 if (args.length === 0) {
                     term.writeln("Usage: goto page <page> or goto blog <blog>");
@@ -199,49 +214,51 @@ function handleCommand(cmdLine) {
                 prompt();
                 };
             }
-        } else if (subcmd === "blog") {
-                if (args.length === 0) {
-                    term.writeln("Usage: goto page <page> or goto blog <blog>");
-                    prompt();
-                    return;
-                } else {
-                    try {
-                let target = args.join(" "); // <-- join all parts back
-                if (/^\d+$/.test(target)) {
-                    const idx = parseInt(target, 10) - 1;
-                    if (blogsCache[idx]) {
-                        target = blogsCache[idx];
+            } else if (subcmd === "blog") {
+                    if (args.length === 0) {
+                        term.writeln("Usage: goto page <page> or goto blog <blog>");
+                        prompt();
+                        return;
+                    } else {
+                        try {
+                    let target = args.join(" "); // <-- join all parts back
+                    if (/^\d+$/.test(target)) {
+                        const idx = parseInt(target, 10) - 1;
+                        if (blogsCache[idx]) {
+                            target = blogsCache[idx];
+                        }
                     }
-                }
 
-                // You can implement your custom logic here
-                let cleaned_target = target.toLowerCase();
-                cleaned_target = cleaned_target.replace(/'/g, "");
-                cleaned_target = cleaned_target.replace(/ /g, "-");
-                term.writeln(`Navigating to ${cleaned_target}...`);
-                setTimeout(() => {
-                    term.write(".");
-                }, 150);
-                setTimeout(() => {
-                    term.write(".");
-                }, 300);
-                setTimeout(() => {
-                    term.write(".\r\n"); // finish with newline
-                    // then actually navigate to the new tab
-                    window.location.href = `/blog/${cleaned_target}`;
-                }, 500);
-                // e.g. trigger navigation in your app:
-                // window.location.href = `/blog/${target}`;
-                } catch (e) {
-                term.writeln(`Unknown target: ${target}`);
+                    // You can implement your custom logic here
+                    let cleaned_target = target.toLowerCase();
+                    cleaned_target = cleaned_target.replace(/'/g, "");
+                    cleaned_target = cleaned_target.replace(/ /g, "-");
+                    term.writeln(`Navigating to ${cleaned_target}...`);
+                    setTimeout(() => {
+                        term.write(".");
+                    }, 150);
+                    setTimeout(() => {
+                        term.write(".");
+                    }, 300);
+                    setTimeout(() => {
+                        term.write(".\r\n"); // finish with newline
+                        // then actually navigate to the new tab
+                        window.location.href = `/blog/${cleaned_target}`;
+                    }, 500);
+                    // e.g. trigger navigation in your app:
+                    // window.location.href = `/blog/${target}`;
+                    } catch (e) {
+                    term.writeln(`Unknown target: ${target}`);
+                    prompt();
+                    };
+                }
+            } else {
+                term.writeln("Usage: goto page <page> or goto blog <blog>");
                 prompt();
-                };
+                return;
             }
-        } else {
-            term.writeln("Usage: goto page <page> or goto blog <blog>");
-            prompt();
-            return;
-        }
+
+        })();
 
         break;
 

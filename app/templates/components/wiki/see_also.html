@@ -1,0 +1,13 @@
+
+
+<div class="mw-heading mw-heading2"><h2 id="See_also">See also</h2></div>
+    <ul>
+        {% for name, link in see_also %}
+        <li>
+            <a href="{{ link }}" title="{{ name }}">{{ name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+
