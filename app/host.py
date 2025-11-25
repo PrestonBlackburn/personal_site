@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Depends, HTTPException, Response, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+
+import wiki
 
 import markdown
 from pathlib import Path
@@ -16,8 +18,8 @@ logging.basicConfig(
 logging.getLogger("uvicorn").setLevel(logging.DEBUG)
 logging.getLogger("uvicorn.error").setLevel(logging.DEBUG)
 logging.getLogger("uvicorn.access").setLevel(logging.INFO)
-logging.getLogger("pat").setLevel(logging.DEBUG)
-logging.getLogger("rubric_core").setLevel(logging.INFO)
+
+_logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -37,8 +39,9 @@ templates = Jinja2Templates(directory="app/templates")
 # static files (nees to be called before the router for pathing)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 # Serve robots.txt and sitemap.xml
-app.mount("/", StaticFiles(directory="app/static/metadata"), name="metadata")
+app.mount("/metadata", StaticFiles(directory="app/static/metadata"), name="metadata")
 
+app.include_router(wiki.router)
 
 def get_home_page(
     request: Request, 
@@ -47,6 +50,7 @@ def get_home_page(
     context = {"request": request, "landing_page": True}
     # later - contextually show landing page stuff
     response = templates.TemplateResponse("pages/landing.html", context)
+    _logger.info(f"Got Home Repsonse: {response}")
 
     return response
 
@@ -57,6 +61,14 @@ async def home(
 ) -> HTMLResponse:
     response = get_home_page(request, templates)
     return response
+
+@app.get("/robots.txt")
+def robots():
+    return FileResponse("app/static/metadata/robots.txt")
+
+@app.get("/sitemap.xml")
+def sitemap():
+    return FileResponse("app/static/metadata/sitemap.xml")
 
 
 # For generic pages (just md serving)

@@ -1,4 +1,4 @@
-Snowflake Native Apps — Simple CI/CD for ML Apps
+Snowflake Native Apps Simple CI CD for ML Apps
 ================================================
 
 Sep 8, 2023

@@ -1,4 +1,4 @@
-Machine Learning Assisted Analysis of Condensate Mixtures
+ML Modeling of Condensate Mixture Properties
 ================================================
 
 Jan 4, 2021

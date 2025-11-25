@@ -1,0 +1,43 @@
+{% extends 'base_wiki.html' %}
+
+{% block content %}
+
+    {% include 'components/wiki/header.html' with context %}
+
+    {% include 'components/wiki/post_header_page_container.html' with context %}
+
+    {% include 'components/wiki/post_header.html' with context %}
+
+
+    <div id="bodyContent" class="vector-body ve-init-mw-desktopArticleTarget-targetContainer" aria-labelledby="firstHeading" data-mw-ve-target-container="">
+    <div class="vector-body-before-content">
+        <div class="mw-indicators">
+    </div>
+
+    <div id="siteSub" class="noprint">From The Wiki, It's Free.</div>
+    </div>
+    <div id="contentSub"><div id="mw-content-subtitle"></div></div>
+                        
+                        
+    <div id="mw-content-text" class="mw-body-content"><div class="mw-content-ltr mw-parser-output" lang="en" dir="ltr"><div class="shortdescription nomobile noexcerpt noprint searchaux" style="display:none">War memorial on Hyde Park Corner, London</div>
+
+    {% include 'components/wiki/overview_section.html' with context %}
+
+    {% include 'components/wiki/content_section.html' with context %}
+
+    {% include 'components/wiki/my_section.html' with context%}
+
+    {% include 'components/wiki/see_also.html' with context %}
+
+    {% include 'components/wiki/ref_section.html' with context %}
+
+    </div>
+    </div>
+    </div>
+
+    {% include 'components/wiki/footer.html' with context %}
+
+    {% include 'components/wiki/post_footer.html' with context %}
+
+
+{% endblock %}

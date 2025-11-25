@@ -1,0 +1,14 @@
+{% for section in section_data %}
+
+    <meta property="mw:PageProp/toc">
+    <div class="mw-heading mw-heading2"><h2 id="{{ section.section_title }}">{{ section.section_title }}</h2></div>
+    <figure class="mw-default-size" typeof="mw:File/Thumb">
+        <a href="{{ section.section_image_link }}" class="mw-file-description">
+            <img src="{{ section.section_image_link }}" decoding="async" width="255" height="255" class="mw-file-element" srcset="{{ section.section_image_link }}" data-file-width="512" data-file-height="512">
+        </a><figcaption> {{ section.section_title }} </figcaption>
+    </figure>
+    <p>
+        {{ section.section_content | safe }}
+    </p>
+
+{% endfor %}

@@ -1,0 +1,23 @@
+{% for thumbnail in thumbnails %}
+<a 
+    href="{{ thumbnail.src }}" 
+    style="text-decoration: none; color: inherit;"
+>
+    <div style="display: flex; align-items: center; justify-content: center; max-width: 500px; padding-bottom: 25px;">
+        <img src="{{ thumbnail.image }}" width="100" height="100"/>
+        <div style="display: flex; flex-direction: column;">
+            <div>
+                <b>
+                    {{ thumbnail.title }}
+                </b>
+
+            </div>
+            <div>
+                <p>
+                    {{ thumbnail.overview | safe }}
+                </p>
+            </div>
+        </div>
+    </div>
+</a>
+{% endfor %}

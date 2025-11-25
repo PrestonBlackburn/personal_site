@@ -22,6 +22,9 @@ function navigateTo(page) {
     case 'projects':
       window.location.href = '/projects';
       break;
+    case 'wiki':
+      window.location.href = '/wiki';
+      break;
     case 'linux':
       window.location.href = 'https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview';
       break;

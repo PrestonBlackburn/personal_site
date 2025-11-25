@@ -1,4 +1,4 @@
-Streamlit vs HTMX — LLM Streaming Chatbots
+Streamlit vs HTMX LLM Streaming Chatbots
 ==========================================
 
 May 16, 2024

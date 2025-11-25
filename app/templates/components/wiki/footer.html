@@ -1,0 +1,42 @@
+
+<div class="mw-footer-container">
+<footer id="footer" class="mw-footer">
+	<ul id="footer-info">
+	<li id="footer-info-lastmod"> This page was last edited on <span id="modified-date"></span><span class="anonymous-show">&nbsp;(UTC)</span>.</li>
+	<li id="footer-info-copyright">Text is available under the <a href="/wiki/copyright" title="Wki:Text of the Creative Commons Attribution-ShareAlike 4.0 International License">Creative Commons Attribution-ShareAlike 4.0 License</a>;
+additional terms may apply. By using this site, you agree to the 
+<a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use" class="extiw" title="foundation:Special:MyLanguage/Policy:Terms of Use">Terms of Use</a> and 
+<a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy" class="extiw" title="foundation:Special:MyLanguage/Policy:Privacy policy">Privacy Policy</a>
+</ul>
+
+	<ul id="footer-places">
+	<li id="footer-places-privacy"><a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy">Privacy policy</a></li>
+	<li id="footer-places-about"><a href="/wiki/about">About Slopedia</a></li>
+	<li id="footer-places-disclaimers"><a href="/wiki/about">Disclaimers</a></li>
+	<li id="footer-places-contact"><a href="/wiki/contact">Contact Owner</a></li>
+    <li style="display: none;"><a href="#">Edit preview settings</a></li></ul>
+
+	<ul id="footer-icons" class="noprint">
+</ul>
+
+</footer>
+</div>
+
+<script>
+  function randomDateTimeFormatted() {
+    const start = new Date(2025, 0, 1).getTime();
+    const end = new Date(2025, 11, 31).getTime();
+    const date = new Date(start + Math.random() * (end - start));
+
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${day} ${month} ${year}, at ${hours}:${minutes}`;
+  }
+
+  document.getElementById("modified-date").textContent = randomDateTimeFormatted();
+</script>
