@@ -30,7 +30,9 @@ data:
     ingress:
     # The first rule proxies traffic to the httpbin sample Service defined in app.yaml
     - hostname: test.prestonblackburn.com
-      service: http://personal-site.personal.svc.cluster.local:8000
+      service: http://personal-site-dev.personal.svc.cluster.local:8001
+    - hostname: prestonblackburn.com
+      service: http://personal-site-prod.personal.svc.cluster.local:8000
     # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
     # issues. If hello.example.com resolves and tunnel.example.com does not, then the problem is
     # in the connection from cloudflared to your local service, not from the internet to cloudflared.
