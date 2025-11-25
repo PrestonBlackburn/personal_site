@@ -1,9 +1,18 @@
 from pathlib import Path
-# custom pages - 
-from host import custom_md_pages
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from wiki import clean_topic_name, get_topics
+
+custom_md_pages = {
+    "videos": Path(f"app/static/content/videos/my-videos.md"),
+    "projects": Path(f"app/static/content/projects/projects-page.md"),
+    "consulting": Path(f"app/static/content/consulting/consulting-overview.md"),
+    "tools": Path(f"app/static/content/tools/my-tools.md"),
+    "about": Path(f"app/static/content/about/about.md"),
+    "contact": Path(f"app/static/content/contact/contact.md"),
+    # "blogs": Path(f"app/static/content/blogs/summary.md"),
+}
+
 
 def get_blog_urls():
     # blogs path - 
