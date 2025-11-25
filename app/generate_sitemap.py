@@ -3,6 +3,7 @@ from pathlib import Path
 from host import custom_md_pages
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from wiki import clean_topic_name, get_topics
 
 def get_blog_urls():
     # blogs path - 
@@ -27,6 +28,13 @@ def get_custom_page_urls():
         urls.append(url)
     return urls
 
+
+def get_wiki_page_urls():
+    base_url = "https://prestonblackburn.com/"
+    topics = get_topics()
+    topic_urls = [f"{base_url}/wiki/{clean_topic_name(topic)}" for topic in topics]
+    return topic_urls
+
 def create_url_xml_element(root: ET.Element, url:str, changefreq="monthly", priority="0.5", lastmod=None):
     url_element = ET.SubElement(root, "url")
     loc = ET.SubElement(url_element, "loc")
@@ -46,11 +54,14 @@ def generate_sitemap():
     root.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
     blog_urls = get_blog_urls()
     custom_page_urls = get_custom_page_urls()
+    wiki_urls = get_wiki_page_urls()
     for url in blog_urls:
         last_mod_date = datetime.now().strftime("%Y-%m-%d")
         create_url_xml_element(root, url, changefreq="monthly", priority="0.8", lastmod=last_mod_date)
     for url in custom_page_urls:
         create_url_xml_element(root, url, changefreq="yearly", priority="0.6")
+    for url in wiki_urls:
+        create_url_xml_element(root, url, changefreq="monthly", priority="0.8", lastmod=last_mod_date)
     
     tree = ET.ElementTree(root)
     ET.indent(tree, space="  ", level=0)
