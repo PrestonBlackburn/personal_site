@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: '3.12' 
       - run: |
-          pip install requirements.txt
+          pip install -r requirements.txt
           python app/generate_sitemap.py
 
       - name: Build and push Docker image
