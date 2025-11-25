@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: personal-site-deployment
+  name: personal-site-deployment-prod
   namespace: personal
   labels:
-    app: personal-site
+    app: personal-site-prod
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: personal-site
+      app: personal-site-prod
   template:
     metadata:
       labels:
-        app: personal-site
+        app: personal-site-prod
     spec:
       containers:
-        - name: personal-site-container
+        - name: personal-site-prod-container
           # if local
           # imagePullPolicy: Never
           # image: personal_site:latest
@@ -26,6 +26,45 @@ spec:
           image: ghcr.io/prestonblackburn/personal_site/personal_site:main
           ports:
             - containerPort: 8000
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personal-site-deployment-dev
+  namespace: personal
+  labels:
+    app: personal-site-dev
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: personal-site-dev
+  template:
+    metadata:
+      labels:
+        app: personal-site-dev
+    spec:
+      containers:
+        - name: personal-site-dev-container
+          # if local
+          # imagePullPolicy: Never
+          # image: personal_site:latest
+          # if remote
+          imagePullPolicy: Always
+          image: ghcr.io/prestonblackburn/personal_site/personal_site:dev
+          args:
+            ["uvicorn", "app.host:app", "--host", "0.0.0.0", "--port", "8001"]
+          ports:
+            - containerPort: 8001
           resources:
             requests:
               memory: "256Mi"
@@ -38,14 +77,29 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: personal-site
+  name: personal-site-prod
   namespace: personal
 spec:
   type: ClusterIP
   selector:
-    app: personal-site
+    app: personal-site-prod
   ports:
     - protocol: TCP
       port: 8000
       targetPort: 8000 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: personal-site-dev
+  namespace: personal
+spec:
+  type: ClusterIP
+  selector:
+    app: personal-site-dev
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
 
