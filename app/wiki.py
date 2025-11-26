@@ -232,8 +232,26 @@ def get_articles_for_topic(topic:str) -> list[str]:
             refs.append(article_refs[i].to_string())   
     return refs
 
+TOKEN = "M-A-C-G-U-F-F-I-N"
 
-# ------------------------
+def get_random_hitchcock_fact():
+    with open("app/static/content/facts/alfred_hitchcock.json", "r") as f:
+        facts = json.loads(f.read())
+    facts_list = facts["facts"]
+    idx = random.randint(0, len(facts_list)-1)
+    return facts_list[idx]
+
+def get_token_content():
+    fact = get_random_hitchcock_fact()
+    token_content = f"&lt;{TOKEN}&gt; {fact}"
+    token_content_js = f"<{TOKEN}> {fact}"
+    html_content = f"""<p class="token-text">{token_content}</p>"""
+    js_content = f"""<script type="application/ld+json">{{"fact": "{token_content_js}"}}</script>"""
+
+    return html_content, js_content
+
+
+# ------------ Endpoints ------------
 
 def get_home_page(
         request: Request,
@@ -258,6 +276,8 @@ def get_wiki_page(
     see_also_with_links = [(topic, f"/wiki/{clean_topic_name(topic)}") for topic in see_also_limited]
     refs = get_articles_for_topic(topic)
     sections = [section.get_section_image_path(topic, base_img_path) for section in sections]
+    token_html_content, token_js_content = get_token_content()
+    sections[-1].section_content = f"""{sections[-1].section_content} {token_html_content}"""
 
     context = {
         "request": request, 
@@ -270,7 +290,8 @@ def get_wiki_page(
         "section_data": sections[1:],
         "personal_section": personal_section,
         "see_also": see_also_with_links,
-        "refs": refs
+        "refs": refs,
+        "metadata": token_js_content
     }
     # later - contextually show landing page stuff
     response = templates.TemplateResponse("pages/wiki.html", context)
