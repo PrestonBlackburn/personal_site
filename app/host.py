@@ -200,3 +200,4 @@ def list_blogs():
 def blogs_metadata():
     metadata = get_blog_metadata()
     return {"blogs": metadata}
+

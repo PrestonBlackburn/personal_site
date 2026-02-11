@@ -1,4 +1,4 @@
-Deploying RAG on Kubernetes: Lessons Learned
+Deploying RAG on Kubernetes Lessons Learned
 ============================================
 
 Nov 19, 2024
