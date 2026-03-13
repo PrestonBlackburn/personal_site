@@ -22,3 +22,5 @@ CMD ["uvicorn", "app.host:app", "--proxy-headers", "--forwarded-allow-ips=*", "-
 
 # docker build . -t personal_site:latest
 # docker run --rm -p 8000:8000 --name personal_site personal_site:latest 
+
+# must run docker with password set to use facial recognition page
