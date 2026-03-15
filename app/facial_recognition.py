@@ -246,7 +246,16 @@ async def list_shoppers():
 async def list_current_shopper():
     """List the current/active shopper category to be used in eink display."""
 
-    # TODO - lets have this as a global, then set a timer to reset it when no faces are seen for a while
     return {"shopper_category": str(current_shopper)}
+
+
+@router.get("/reset-shopper")
+async def reset_shopper():
+    """Reset shopper"""
+    global current_shopper 
+    current_shopper = None
+
+    return {"status": "success"}
+
 
 
