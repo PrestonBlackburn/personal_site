@@ -5,3 +5,10 @@ uvicorn
 Jinja2
 markdown
 rapidfuzz
+
+# facial recognition
+deepface
+numpy
+Pillow
+mtcnn
+tf-keras
