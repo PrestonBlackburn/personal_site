@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import wiki
+from app import facial_recognition
 
 import markdown
 from pathlib import Path
@@ -42,6 +43,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.mount("/metadata", StaticFiles(directory="app/static/metadata"), name="metadata")
 
 app.include_router(wiki.router)
+app.include_router(facial_recognition.router)
 
 def get_home_page(
     request: Request, 
@@ -63,11 +65,11 @@ async def home(
     return response
 
 @app.get("/robots.txt")
-def robots():
+async def robots():
     return FileResponse("app/static/metadata/robots.txt")
 
 @app.get("/sitemap.xml")
-def sitemap():
+async def sitemap():
     return FileResponse("app/static/metadata/sitemap.xml")
 
 
@@ -132,10 +134,22 @@ def get_blog_metadata(blog_dir:Path = Path("app/static/content/blogs")):
 
         # sort metadta by date (newest first)
         metadata = sorted(metadata, key=lambda x: datetime.strptime(x['date'], "%b %d, %Y"), reverse=True)
-    return metadata    
+    return metadata  
+
+def get_blogs_rss_feed() -> list[dict]:
+    # fields: title, link, description, pub_date 
+    blog_metadata = get_blog_metadata()
+
+    rss_data = []
+    for blog_data in blog_metadata:
+        date = datetime.strptime(blog_data['date'], "%b %d, %Y")
+        rss_data.append({"pub_date": date, "link": f"https://prestonblackburn.com/blog/{blog_data['slug']}", "title": blog_data['title'], "description": blog_data['title']})
+
+    return rss_data
+
 
 @app.get("/blogs", response_class=HTMLResponse)
-def serve_blogs_landing(
+async def serve_blogs_landing(
     request: Request
 )-> HTMLResponse:
     
@@ -148,7 +162,7 @@ def serve_blogs_landing(
     return response
 
 @app.get("/blog/{page_name}", response_class=HTMLResponse)
-def serve_markdown_page(
+async def serve_markdown_page(
     page_name:str, 
     request: Request
 )-> HTMLResponse:
@@ -170,11 +184,11 @@ def serve_markdown_page(
 
 
 @app.get("/api/v1/pages")
-def list_pages():
+async def list_pages():
     return {"pages": list(custom_md_pages.keys())}
 
 @app.get("/api/v1/blogs")
-def list_blogs():
+async def list_blogs():
     blog_dir = Path("app/static/content/blogs")
     blog_files = [f for f in blog_dir.glob("*.md") if f.is_file() and f.name != "summary.md"]
     metadata = []
@@ -197,6 +211,26 @@ def list_blogs():
     return {"blogs": ordered_blogs_list}
 
 @app.get("/api/v1/blogs/metadata")
-def blogs_metadata():
+async def blogs_metadata():
     metadata = get_blog_metadata()
     return {"blogs": metadata}
+
+@app.get("/rss")
+async def get_rss(request: Request):
+    blog_metadata = get_blogs_rss_feed()
+    rss_content = templates.get_template("rss.xml").render({
+        "request": request,
+        "posts": blog_metadata,
+        "site_title": "My Blog",
+        "site_link": "https://example.com",
+        "site_description": "My blog description",
+        "build_date": datetime.now()
+    })
+    
+    return Response(content=rss_content, media_type="application/rss+xml")
+
+
+@app.get("/healthz")
+async def health_check():
+    return {"status": "alive"}
+

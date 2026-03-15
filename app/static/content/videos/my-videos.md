@@ -2,6 +2,26 @@
 
 <br/>
 
+### Going on the offensive against AI crawlers
+
+**Dec 27, 2025**  
+*How I created an AI honeypot to attempt to influence LLM training data of future models.*    
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RJnzEl55z6E?si=KekbURgZi8K0evfD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<br/>
+
+---
+
+### Turn your old gaming pc into a public server
+
+**Oct 9, 2025**  
+*Moving my website from the cloud to my home Ubuntu server. I'll walk through the motivations behind the move, and how you can migrate your apps out of the cloud to home-prem.*  
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/k0Nev6SYmEY?si=Wu-Nv6oAdVa-NWfu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<br/>
+
 ---
 
 ### LLM Structured Outputs Were Too Slow (Building a side project for a side project)
