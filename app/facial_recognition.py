@@ -24,7 +24,7 @@ logging.basicConfig(
 )
 _logger = logging.getLogger(__name__)
 
-API_PASSWORD = os.environ.get("API_PASSWORD", "")
+API_PASSWORD = os.environ.get("FACE_API_PASSWORD", "")
 RATE_LIMIT = 10 # per minute (window)
 RATE_WINDOW = 60
 request_history: defaultdict = defaultdict(list)
@@ -35,7 +35,7 @@ TARGET_SIZE = (224, 224)  # Standard input size for face recognition models
 
 face_encodings: Dict[str, np.ndarray] = {}
 unmatched_faces: List[Dict] = []
-
+current_shopper: str = None
 
 def load_face_index():
     """Load face encodings from image files on disk at startup."""
@@ -142,6 +142,7 @@ async def compare_face(
     If no match, track the face as unmatched.
     Requires password authentication via X-API-Password header.
     """
+    global current_shopper
     client_ip = request.client.host if request.client else "unknown"
 
     _logger.debug(f"Got Password: {x_api_password}")
@@ -184,16 +185,17 @@ async def compare_face(
                 "message": "No face indexed — face tracked as unmatched",
             }
 
-        celeb_names = list(face_encodings.keys())
+        shopper_names = list(face_encodings.keys())
         similarities = []
 
-        for name in celeb_names:
+        for name in shopper_names:
             sim = cosine_similarity(captured_encoding, face_encodings[name])
             similarities.append(sim)
 
         best_idx = int(np.argmax(similarities))
         best_similarity = similarities[best_idx]
-        best_name = celeb_names[best_idx]
+        best_name = shopper_names[best_idx]
+        current_shopper = best_name
 
         if best_similarity >= SIMILARITY_THRESHOLD:
             return {
@@ -235,16 +237,16 @@ async def get_unmatched_faces():
 
 
 @router.get("/shoppers")
-async def list_celebrities():
+async def list_shoppers():
     """List indexed shopper categories."""
     return {"shoppers": list(face_encodings.keys())}
 
 
-@router.get("/current-shoppers")
-async def list_celebrities():
+@router.get("/current-shopper")
+async def list_current_shopper():
     """List the current/active shopper category to be used in eink display."""
 
     # TODO - lets have this as a global, then set a timer to reset it when no faces are seen for a while
-    return {"shoppers_category": list(face_encodings.keys())}
+    return {"shopper_category": str(current_shopper)}
 
 
