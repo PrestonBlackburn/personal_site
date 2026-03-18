@@ -41,7 +41,13 @@
             </div>
 
             <div class="bg-white rounded-lg p-4 mb-3 shadow-sm">
-                <h3 class="text-lg font-medium mb-3 border-b border-gray-100 pb-2">Categorized Shoppers</h3>
+                <div class="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-medium">Categorized Shoppers</h3>
+                    <button id="resetShopperBtn"
+                        class="px-3 py-1 text-sm bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 transition-colors">
+                        Reset Shopper
+                    </button>
+                </div>
                 <div id="shoppersList"><span class="text-gray-400 italic text-sm">Loading...</span></div>
             </div>
 
