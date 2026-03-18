@@ -230,6 +230,31 @@ async function fetchUnmatchedFaces() {
   }
 }
 
+async function resetShopper() {
+  const btn = document.getElementById("resetShopperBtn");
+  btn.disabled = true;
+  btn.textContent = "Resetting...";
+
+  try {
+    const res = await fetch(`/face/reset-shopper`, { method: "GET" });
+    const data = await res.json();
+
+    if (!res.ok) {
+      setStatus(`Reset failed: ${data.detail || res.statusText}`, true);
+    } else {
+      setStatus("Shopper reset successfully");
+      fetchShoppers();
+    }
+  } catch (err) {
+    setStatus("Reset failed — is the backend running?", true);
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Reset Shopper";
+  }
+}
+
+
 // ── Bootstrap ───────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -237,4 +262,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   await startWebcam();
   fetchShoppers();
   fetchUnmatchedFaces();
+  document.getElementById("resetShopperBtn").addEventListener("click", resetShopper);
 });
