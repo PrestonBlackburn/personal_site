@@ -1,14 +1,13 @@
 # App
-fastapi
-python-multipart
-uvicorn
-Jinja2
-markdown
-rapidfuzz
+fastapi==0.116
+python-multipart==0.0.20
+uvicorn==0.35
+Jinja2==3.1
+markdown==3.9
+rapidfuzz==3.14
 
 # facial recognition
-deepface
-numpy
-Pillow
-mtcnn
-tf-keras
+deepface==0.0.99
+Pillow==12.1
+mtcnn==1.0
+tf-keras==2.20
