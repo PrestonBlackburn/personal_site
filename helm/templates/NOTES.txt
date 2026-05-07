@@ -1,0 +1,4 @@
+View application at:
+export SVC_NAME={{ .Values.app.name }}
+echo "Visit http://127.0.0.1:{{ .Values.app.port }} to use your application"
+kubectl port-forward $SVC_NAME {{ .Values.app.name }}:80

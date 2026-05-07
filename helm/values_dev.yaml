@@ -1,0 +1,13 @@
+
+app:
+  deployment_name: personal-site-deployment-dev
+  name: personal-site-dev
+  port: 8001
+  image_name: personal-site-dev-container
+  image_source: ghcr.io/prestonblackburn/personal_site/personal_site:dev
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "2048Mi"
+    cpu: "2"
