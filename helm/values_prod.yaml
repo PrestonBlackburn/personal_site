@@ -1,0 +1,13 @@
+
+app:
+  deployment_name: personal-site-deployment-prod
+  name: personal-site-prod
+  port: 8000
+  image_name: personal-site-prod-container
+  image_source: ghcr.io/prestonblackburn/personal_site/personal_site:main
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "4096Mi"
+    cpu: "4"

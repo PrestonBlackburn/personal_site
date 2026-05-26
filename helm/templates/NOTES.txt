@@ -1,0 +1,4 @@
+View application at:
+export SVC_NAME={{ .Values.app.name }}
+kubectl port-forward $SVC_NAME/{{ .Values.app.name }} {{ .Values.app.port }}:{{ .Values.app.port }}
+Visit http://127.0.0.1:{{ .Values.app.port }} to view the site"

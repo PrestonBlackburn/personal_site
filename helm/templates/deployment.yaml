@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.deployment_name }}
+  namespace: personal
+  labels:
+    app: {{ .Values.app.name }}
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      containers:
+        - name: {{ .Values.app.image_name }}
+          # if local
+          # imagePullPolicy: Never
+          # image: personal_site:latest
+          # if remote
+          imagePullPolicy: Always
+          image: {{ .Values.app.image_source }}
+          args:
+            ["uvicorn", "app.host:app", "--host", "0.0.0.0", "--port", "{{ .Values.app.port }}"]
+          ports:
+            - containerPort: {{ .Values.app.port }}
+          env:
+            - name: FACE_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: personal-site-secrets
+                  key: face-api-password
+          resources:
+            requests:
+              memory: {{ .Values.app.requests.memory }}
+              cpu: {{ .Values.app.requests.cpu }}
+            limits:
+              memory: {{ .Values.app.limits.memory }}
+              cpu: {{ .Values.app.limits.cpu }}
+
+
