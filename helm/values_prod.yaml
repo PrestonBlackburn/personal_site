@@ -11,3 +11,6 @@ app:
   limits:
     memory: "4096Mi"
     cpu: "4"
+  
+  storage_name: personal-site-images-pvc-prod
+  storage_amount: 10Gi

@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import wiki
 from app import facial_recognition
+from app import images
 
 import markdown
 from pathlib import Path
@@ -44,6 +45,7 @@ app.mount("/metadata", StaticFiles(directory="app/static/metadata"), name="metad
 
 app.include_router(wiki.router)
 app.include_router(facial_recognition.router)
+app.include_router(images.router) 
 
 def get_home_page(
     request: Request, 
