@@ -37,6 +37,10 @@ spec:
           image: ghcr.io/prestonblackburn/personal_site/personal_site:main
           ports:
             - containerPort: 8000
+          
+          volumeMounts:
+          - name: images-storage
+            mountPath: /data/images
 
           env:
             - name: FACE_API_PASSWORD
@@ -44,6 +48,13 @@ spec:
                 secretKeyRef:
                   name: personal-site-secrets
                   key: face-api-password
+            - name: IMAGE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: personal-site-secrets
+                  key: image-api-token
+            - name: IMAGE_STORAGE_PATH
+              value: "/data/images"
               
           resources:
             requests:
@@ -52,6 +63,10 @@ spec:
             limits:
               memory: "4096Mi"
               cpu: "4"
+      volumes:
+        - name: images-storage
+          persistentVolumeClaim:
+            claimName: personal-site-images-pvc-prod
 
 ---
 apiVersion: apps/v1
@@ -128,3 +143,17 @@ spec:
       port: 8001
       targetPort: 8001
 
+
+--- 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: personal-site-images-pvc-prod
+  namespace: personal
+spec:
+  storageClassName: nfs-csi-hdd
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

@@ -28,12 +28,25 @@ spec:
             ["uvicorn", "app.host:app", "--host", "0.0.0.0", "--port", "{{ .Values.app.port }}"]
           ports:
             - containerPort: {{ .Values.app.port }}
+
+          volumeMounts:
+            - name: images-storage
+              mountPath: /data/images
+              
           env:
             - name: FACE_API_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: personal-site-secrets
                   key: face-api-password
+            - name: IMAGE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: personal-site-secrets
+                  key: image-api-token
+            - name: IMAGE_STORAGE_PATH
+              value: "/data/images"
+
           resources:
             requests:
               memory: {{ .Values.app.requests.memory }}
@@ -42,4 +55,7 @@ spec:
               memory: {{ .Values.app.limits.memory }}
               cpu: {{ .Values.app.limits.cpu }}
 
-
+      volumes:
+        - name: images-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.app.storage_name }} 

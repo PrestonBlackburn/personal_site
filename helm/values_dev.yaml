@@ -11,3 +11,6 @@ app:
   limits:
     memory: "2048Mi"
     cpu: "2"
+
+  storage_name: personal-site-images-pvc-dev
+  storage_amount: 1Gi
